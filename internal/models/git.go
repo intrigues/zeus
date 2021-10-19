@@ -3,40 +3,27 @@ package models
 import (
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
-	"github.com/go-git/go-billy/v5"
-	"github.com/go-git/go-billy/v5/memfs"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/config"
 	"github.com/go-git/go-git/v5/plumbing"
 	http "github.com/go-git/go-git/v5/plumbing/transport/http"
-	memory "github.com/go-git/go-git/v5/storage/memory"
 )
 
 type Git struct {
-	GitUsername   string
-	GitPassword   string
-	GitUrl        string
-	gitRepo       *git.Repository
-	gitRemote     *git.Remote
-	gitBranch     map[string][]string
-	gitAuth       *http.BasicAuth
-	gitStorage    *memory.Storage
-	gitFileSystem billy.Filesystem
-}
-
-func (g *Git) GetHeadBranch() string {
-	b, _ := g.gitRepo.Head()
-	return string(b.Name())
+	GitUsername string
+	GitPassword string
+	GitUrl      string
+	Directory   string
+	GitBranch   map[string][]string
+	GitAuth     *http.BasicAuth
 }
 
 func (g *Git) Initialize() error {
 	g.SetGitAuth()
-	g.SetGitStorage()
-	g.SetGitFileSystem()
 	g.NoCheckoutClone()
-	g.SetRemote()
 	return nil
 }
 
@@ -45,54 +32,111 @@ func (g *Git) SetGitAuth() error {
 		Username: g.GitUsername,
 		Password: g.GitPassword,
 	}
-	g.gitAuth = gitAuth
-	return nil
-}
-
-func (g *Git) SetGitStorage() error {
-	g.gitStorage = memory.NewStorage()
-	return nil
-}
-
-func (g *Git) SetGitFileSystem() error {
-	g.gitFileSystem = memfs.New()
+	g.GitAuth = gitAuth
 	return nil
 }
 
 func (g *Git) NoCheckoutClone() error {
-	gitRepo, err := git.Clone(
-		g.gitStorage,
-		g.gitFileSystem,
+	_, err := git.PlainClone(
+		g.Directory,
+		false,
 		&git.CloneOptions{
-			URL:        g.GitUrl,
-			Auth:       g.gitAuth,
-			NoCheckout: true,
+			URL: g.GitUrl,
+			Auth: &http.BasicAuth{
+				Username: g.GitUsername,
+				Password: g.GitPassword,
+			},
 		},
 	)
 	if err != nil {
 		fmt.Println(err)
-		log.Println("error cloning repository", err)
 		return err
 	}
-	g.gitRepo = gitRepo
+
 	return nil
 }
 
-func (g *Git) SetRemote() error {
-	gitRemote, err := g.gitRepo.Remote("origin")
+func (g *Git) GetRepo() (*git.Repository, error) {
+	gitRepo, err := git.PlainOpen(g.Directory)
 	if err != nil {
-		fmt.Println(err)
+		log.Println("error in opening git repo directory:", err)
+		return nil, err
+	}
+	return gitRepo, nil
+}
+
+func (g *Git) GetRemoteOrigin() (*git.Remote, error) {
+	gitRepo, err := g.GetRepo()
+	if err != nil {
+		return nil, err
+	}
+	gitRemote, err := gitRepo.Remote("origin")
+	if err != nil {
 		log.Println("error setting remote", err)
+		return nil, err
+	}
+	return gitRemote, nil
+}
+
+func (g *Git) FetchRemote() error {
+	gitRemote, err := g.GetRemoteOrigin()
+	if err != nil {
 		return err
 	}
-	g.gitRemote = gitRemote
+	err = gitRemote.Fetch(&git.FetchOptions{
+		Auth:     g.GitAuth,
+		RefSpecs: []config.RefSpec{"refs/*:refs/*"},
+	})
+	if err != nil {
+		log.Println("error in fetching:", err)
+		return err
+	}
+	return nil
+}
+
+func (g *Git) GetTree() (*git.Worktree, error) {
+	gitRepo, err := g.GetRepo()
+	if err != nil {
+		return nil, err
+	}
+
+	w, err := gitRepo.Worktree()
+	if err != nil {
+		log.Println("error in getting work tree", err)
+		return nil, err
+	}
+	return w, nil
+}
+
+func (g *Git) CheckoutToBranch(branch string) error {
+	branchName := fmt.Sprintf("refs/heads/%s", branch)
+	branchRef := plumbing.ReferenceName(branchName)
+
+	w, err := g.GetTree()
+	if err != nil {
+		log.Println("error in checking out to branch:", err)
+		return err
+	}
+
+	err = w.Checkout(&git.CheckoutOptions{
+		Branch: branchRef,
+		Create: false,
+	})
+	if err != nil {
+		log.Println("error in checking out to branch:", err)
+		return err
+	}
 	return nil
 }
 
 func (g *Git) ListBranches() (map[string][]string, error) {
 	refPrefix := "refs/heads/"
 	branchList := make(map[string][]string)
-	refList, err := g.gitRemote.List(&git.ListOptions{Auth: g.gitAuth})
+	gitRemote, err := g.GetRemoteOrigin()
+	if err != nil {
+		return nil, err
+	}
+	refList, err := gitRemote.List(&git.ListOptions{Auth: g.GitAuth})
 	if err != nil {
 		return make(map[string][]string), err
 	}
@@ -103,58 +147,73 @@ func (g *Git) ListBranches() (map[string][]string, error) {
 		}
 		branchList["branches"] = append(branchList["branches"], refName[len(refPrefix):])
 	}
-	g.gitBranch = branchList
+	g.GitBranch = branchList
 
 	return branchList, nil
 }
 
+func (g *Git) GetListOffiles() ([]string, error) {
+
+	gitRepo, err := g.GetRepo()
+	if err != nil {
+		return nil, err
+	}
+	// Get head ref
+	head, _ := gitRepo.Head()
+	// get latest commit
+	commit, _ := gitRepo.CommitObject(head.Hash())
+	// get tree object of the latest commit
+	tObj, err := commit.Tree()
+
+	if err != nil {
+		log.Println("error in listing files:", err)
+		return nil, err
+	}
+
+	var files []string
+	// create list of file names in the latest commit
+	for item := range tObj.Entries {
+		files = append(files, tObj.Entries[item].Name)
+	}
+
+	return files, nil
+}
+
 func (g *Git) PublishChanges(fileName string, renderedTemplateFile string, gitBranchDropDown string) error {
-	w, err := g.gitRepo.Worktree()
-	if err != nil {
-		fmt.Println(err)
-		log.Println("error in checking out to branch:", err)
-		return err
-	}
 
-	err = g.gitRemote.Fetch(&git.FetchOptions{
-		Auth:     g.gitAuth,
-		RefSpecs: []config.RefSpec{"refs/*:refs/*"},
-	})
+	w, err := g.GetTree()
+
+	err = g.FetchRemote()
 	if err != nil {
-		fmt.Println(err)
 		log.Println("error in fetching:", err)
-		return err
 	}
 
-	branchName := fmt.Sprintf("refs/heads/%s", gitBranchDropDown)
-	branchRef := plumbing.ReferenceName(branchName)
-	err = w.Checkout(&git.CheckoutOptions{
-		Branch: branchRef,
-		Create: false,
-	})
+	err = g.CheckoutToBranch(gitBranchDropDown)
 	if err != nil {
-		fmt.Println(err)
 		log.Println("error in checking out to branch:", err)
 		return err
 	}
 
-	filePath := fileName
-	newFile, err := g.gitFileSystem.Create(filePath)
+	newFile, err := os.Create("/tmp/zeus/Jenkinsfile")
 	if err != nil {
-		fmt.Println(err)
 		log.Println("error creating new file:", err)
 		return err
 	}
 	newFile.Write([]byte(renderedTemplateFile))
 	newFile.Close()
-	w.Add(filePath)
+	w.Add(fileName)
 	w.Commit("added using zeus", &git.CommitOptions{})
-	err = g.gitRepo.Push(&git.PushOptions{
+
+	gitRepo, err := g.GetRepo()
+	if err != nil {
+		return err
+	}
+
+	err = gitRepo.Push(&git.PushOptions{
 		RemoteName: "origin",
-		Auth:       g.gitAuth,
+		Auth:       g.GitAuth,
 	})
 	if err != nil {
-		fmt.Println(err)
 		log.Println("error pushing in git:", err)
 		return err
 	}

@@ -17,13 +17,14 @@ func (m *Repository) FetchGitBranch(w http.ResponseWriter, r *http.Request) {
 		GitUsername: gitUsername,
 		GitPassword: gitPassword,
 		GitUrl:      gitUrl,
+		Directory:   "/tmp/zeus/",
 	}
 	gitRepo.Initialize()
 	listOfBranches, err := gitRepo.ListBranches()
 	if err != nil {
 		m.App.ErrorLog.Println("error listing branch")
 	}
-	m.App.Session.Put(r.Context(), "gitRepo", gitRepo)
+	m.App.Session.Put(r.Context(), "gitRepo", &gitRepo)
 
 	jsonResp, err := json.Marshal(listOfBranches)
 	if err != nil {
