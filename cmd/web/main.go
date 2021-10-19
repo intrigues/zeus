@@ -62,7 +62,6 @@ func run() error {
 	// session store
 	gob.Register(models.Users{})
 	gob.Register(models.Git{})
-	// gob.Register(models.AutomationTemplates{})
 
 	// change this to true when in production
 	app.InProduction = false

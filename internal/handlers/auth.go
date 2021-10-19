@@ -3,37 +3,12 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/intrigues/zeus-automation/internal/config"
 	"github.com/intrigues/zeus-automation/internal/forms"
 	"github.com/intrigues/zeus-automation/internal/helpers"
 	"github.com/intrigues/zeus-automation/internal/models"
 	"github.com/intrigues/zeus-automation/internal/render"
 	"golang.org/x/crypto/bcrypt"
 )
-
-// Repo the repository used by the handlers
-var Repo *Repository
-
-type Repository struct {
-	App *config.AppConfig
-}
-
-// NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
-	return &Repository{
-		App: a,
-	}
-}
-
-// NewHandlers sets the repository for the handlers
-func NewHandlers(r *Repository) {
-	Repo = r
-}
-
-func (m *Repository) GetHome(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-}
 
 func (m *Repository) GetLogin(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "login.page.tmpl", &models.TemplateData{
@@ -128,42 +103,4 @@ func (m *Repository) GetLogout(w http.ResponseWriter, r *http.Request) {
 	_ = m.App.Session.Destroy(r.Context())
 	_ = m.App.Session.RenewToken(r.Context())
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
-}
-
-func (m *Repository) GetDashboard(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "dashboard.page.tmpl", &models.TemplateData{})
-}
-
-func (m *Repository) GetUsers(w http.ResponseWriter, r *http.Request) {
-	var users []models.Users
-	m.App.DB.Find(&users)
-
-	data := make(map[string]interface{})
-	data["users"] = users
-	render.RenderTemplate(w, r, "users.page.tmpl", &models.TemplateData{
-		Form: forms.New(nil),
-		Data: data,
-	})
-}
-
-func (m *Repository) ActivateUser(w http.ResponseWriter, r *http.Request) {
-	username := chi.URLParam(r, "username")
-	m.App.InfoLog.Println("activating user:", username)
-	var user models.Users
-	m.App.DB.First(&user, "username = ?", username)
-	user.Status = 1
-	m.App.DB.Save(&user)
-	m.App.Session.Put(r.Context(), "flash", "User activated")
-	http.Redirect(w, r, "/admin/users/all", http.StatusSeeOther)
-}
-
-func (m *Repository) DeactivateUser(w http.ResponseWriter, r *http.Request) {
-	username := chi.URLParam(r, "username")
-	m.App.InfoLog.Println("deactivating user:", username)
-	var user models.Users
-	m.App.DB.First(&user, "username = ?", username)
-	user.Status = 0
-	m.App.DB.Save(&user)
-	m.App.Session.Put(r.Context(), "flash", "User activated")
-	http.Redirect(w, r, "/admin/users/all", http.StatusSeeOther)
 }

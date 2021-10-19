@@ -109,7 +109,7 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 	gitRepo := m.App.Session.Get(r.Context(), "gitRepo").(models.Git)
 	m.App.ErrorLog.Println("Branch --->", gitRepo.GetHeadBranch())
 
-	// err = gitRepo.PublishChanges(fileName, renderedTemplateFile, gitBranchDropDown)
+	err = gitRepo.PublishChanges(fileName, renderedTemplateFile, gitBranchDropDown)
 	if err != nil {
 		m.App.ErrorLog.Println("error publishing the changes to git", err)
 	}
