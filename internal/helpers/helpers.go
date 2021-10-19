@@ -1,12 +1,15 @@
 package helpers
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"runtime/debug"
+	"strings"
 
+	"github.com/google/uuid"
 	"github.com/intrigues/zeus-automation/internal/config"
-	"github.com/intrigues/zeus-automation/internal/models"
 )
 
 var app *config.AppConfig
@@ -27,11 +30,12 @@ func ServerError(w http.ResponseWriter, err error) {
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
-func IsAuthenticated(r *http.Request) bool {
-	exists := app.Session.Exists(r.Context(), "currentuser")
-	if exists {
-		currentUser := app.Session.Get(r.Context(), "currentuser").(models.Users)
-		return !(currentUser.Status == 0)
+func GenerateRandomString(length int) (string, error) {
+	if length > 32 {
+		log.Println("Please enter the length smaller than 32.")
+		return "", errors.New("UUIDLengthNotSupported")
 	}
-	return exists
+	u := uuid.NewString()
+	u = strings.Replace(u, "-", "", -1)
+	return u[:length], nil
 }

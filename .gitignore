@@ -3,4 +3,6 @@ app
 *.pem
 *.crt
 *.key
+*.env
 go.sum
+data/*

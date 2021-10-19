@@ -10,6 +10,8 @@ import (
 	"github.com/go-git/go-git/v5/config"
 	"github.com/go-git/go-git/v5/plumbing"
 	http "github.com/go-git/go-git/v5/plumbing/transport/http"
+	appconst "github.com/intrigues/zeus-automation/internal/constant"
+	"github.com/intrigues/zeus-automation/internal/helpers"
 )
 
 type Git struct {
@@ -17,13 +19,30 @@ type Git struct {
 	GitPassword string
 	GitUrl      string
 	Directory   string
-	GitBranch   map[string][]string
 	GitAuth     *http.BasicAuth
 }
 
 func (g *Git) Initialize() error {
+	g.SetDirectory()
+	g.MakeDirectory()
 	g.SetGitAuth()
 	g.NoCheckoutClone()
+	return nil
+}
+
+func (g *Git) SetDirectory() {
+	folderName, _ := helpers.GenerateRandomString(20)
+	dataDir := appconst.GetDataDirectory()
+	dir := fmt.Sprintf("%s/%s", dataDir, folderName)
+	g.Directory = dir
+}
+
+func (g *Git) MakeDirectory() error {
+	err := os.MkdirAll(g.Directory, 0775)
+	if err != nil {
+		log.Println("Error creating directory")
+		return err
+	}
 	return nil
 }
 
@@ -147,8 +166,6 @@ func (g *Git) ListBranches() (map[string][]string, error) {
 		}
 		branchList["branches"] = append(branchList["branches"], refName[len(refPrefix):])
 	}
-	g.GitBranch = branchList
-
 	return branchList, nil
 }
 
@@ -182,7 +199,10 @@ func (g *Git) GetListOffiles() ([]string, error) {
 func (g *Git) PublishChanges(fileName string, renderedTemplateFile string, gitBranchDropDown string) error {
 
 	w, err := g.GetTree()
-
+	if err != nil {
+		log.Println("error in getting git tree:", err)
+		return err
+	}
 	err = g.FetchRemote()
 	if err != nil {
 		log.Println("error in fetching:", err)
@@ -194,7 +214,7 @@ func (g *Git) PublishChanges(fileName string, renderedTemplateFile string, gitBr
 		return err
 	}
 
-	newFile, err := os.Create("/tmp/zeus/Jenkinsfile")
+	newFile, err := os.Create(fmt.Sprintf("%s/%s", g.Directory, fileName))
 	if err != nil {
 		log.Println("error creating new file:", err)
 		return err

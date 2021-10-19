@@ -1,12 +1,9 @@
 package main
 
 import (
-	"crypto/rand"
-	"encoding/base64"
 	"encoding/gob"
 	"fmt"
 	"log"
-	"math"
 	"net/http"
 	"os"
 	"time"
@@ -146,10 +143,10 @@ func createDefaultUser() {
 		defaultAdminEmail = "admin@example.com"
 	}
 	if defaultAdminPassword == "" {
-		passwordLength := 24
-		buff := make([]byte, int(math.Ceil(float64(passwordLength)/float64(1.33333333333))))
-		rand.Read(buff)
-		defaultAdminPassword = base64.RawURLEncoding.EncodeToString(buff)[:passwordLength]
+		defaultAdminPassword, err := helpers.GenerateRandomString(24)
+		if err != nil {
+			log.Println("Error creating random string")
+		}
 		log.Println(fmt.Sprintf("Admin Password: %s", string(defaultAdminPassword)))
 	}
 
