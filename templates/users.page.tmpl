@@ -1,0 +1,38 @@
+{{template "basenav" .}}
+
+{{define "content"}}
+
+<div class="row d-flex justify-content-start mt-4">
+
+    {{$user := index .Data "users"}}
+    {{range  $user}}
+    <div class="col-4 my-2">
+        <div class="border-radius-lg {{if eq .Status 0 }}card-content-danger{{else}}card-content-primary{{end}} scale-hover-md">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex py-4 px-3">
+                    <img src="https://miro.medium.com/max/700/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg" alt="logo" width="40"
+                        height="40" class="me-3 ml-3 rounded-circle" />
+                    <span class="card-content-primary-body">
+                        <p class="m-0 fw-bold">{{.Username}}</p>
+                        <p class="m-0 small">{{.Email}}</p>
+                        <p class="m-0 small text-capitalize">{{.Role}}</p>
+                    </span>
+                </div>
+                <div class="py-4 px-3">
+                    <button class="p-1 m-0 d-flex align-items-center btn" type="button" id="cononectedDeviceAction"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class='bx bx-dots-vertical-rounded fs-4'></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="cononectedDeviceAction">
+                        <li><a class="dropdown-item" href="/admin/users/{{.Username}}/activate">Activate</a></li>
+                        <li><a class="dropdown-item" href="/admin/users/{{.Username}}/deactivate">Deactivate</a></li>
+                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+</div>
+
+{{end}}

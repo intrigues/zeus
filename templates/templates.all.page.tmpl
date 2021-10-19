@@ -1,0 +1,51 @@
+{{template "basenav" .}}
+
+{{define "content"}}
+
+<div class="row d-flex justify-content-start mt-4">
+    <div class="col-12 my-2">
+        <a href="/admin/templates/new" class="btn btn-lg custom-btn">Create New Template</a>
+    </div>
+    {{$automationTemplate := index .Data "automationTemplates"}}
+    {{if not  $automationTemplate}}
+    <div class="col-12">
+        <div class="card-content-primary  border-0 border-radius-lg">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <h3>No templates found</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+    {{range  $automationTemplate}}
+    <div class="col-4 my-2">
+        <div class="border-radius-lg card-content-primary scale-hover-md">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex py-4 px-3">
+                    <span class="card-content-primary-body">
+                        <p class="m-0 fw-bold">{{.ProjectName}}</p>
+                        <p class="m-0 small">{{.Technology}}</p>
+                    </span>
+                </div>
+                <div class="py-4 px-3">
+                    <button class="p-1 m-0 d-flex align-items-center btn" type="button" id="cononectedDeviceAction"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class='bx bx-dots-vertical-rounded fs-4'></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="cononectedDeviceAction">
+                        <li><a class="dropdown-item" href="">View</a></li>
+                        <li><a class="dropdown-item" href="">Edit</a></li>
+                        <li><a class="dropdown-item" href="/admin/templates/{{.ID}}/delete">Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+</div>
+
+{{ end }}

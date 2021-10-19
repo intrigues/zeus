@@ -1,0 +1,29 @@
+{{define "basenav"}}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{template "head" .}}
+    <title>Golang Starter</title>
+</head>
+
+<body class="bg-primary">
+    {{template "sidebar" .}}
+
+    <div class="content px-4 py-3 overflow-auto">
+        {{template "searchbar" .}}
+        {{block "content" .}}
+        {{end}}
+    </div>
+
+    {{template "toast" .}}
+    {{block "js" .}}
+    {{end}}
+    {{template "scripts" .}}
+
+</body>
+
+</html>
+{{end}}

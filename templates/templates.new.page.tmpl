@@ -1,0 +1,92 @@
+{{template "basenav" .}}
+
+{{define "content"}}
+
+<div class="row d-flex justify-content-between mt-4">
+    <div class="col-12">
+        <div class="card-content-primary  border-0 border-radius-lg pb-3">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4 class="p-0 m-0 card-content-primary-title">Create New Template</h4>
+                </div>
+                <div class="row">
+
+                    <div class="col-12 mt-2">
+
+                        <form class="border-radius-lg" action="" method="post">
+                            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}"><!-- hidden csrf -->
+                            <div class="d-flex justify-content-between">
+
+                                <div class="login-input-primary form-floating mb-3 pe-1 col">
+                                    <input type="text"
+                                        class="form-control {{with .Form.Errors.Get "projectNameField"}}is-invalid{{end}}"
+                                        id="projectNameField" name="projectNameField" placeholder="web app">
+                                    <label for="projectNameField">Project Name</label>
+                                    {{with .Form.Errors.Get "projectNameField"}}
+                                    <p class="invalid-feedback">{{.}}</p>
+                                    {{end}}
+                                </div><!-- project name field -->
+                                <div class="login-input-primary form-floating mb-3 ps-1 col">
+                                    <input type="text"
+                                        class="form-control {{with .Form.Errors.Get "technologyField"}}is-invalid{{end}}"
+                                        id="technologyField" name="technologyField" placeholder="NodeJS">
+                                    <label for="technologyField">Technology</label>
+                                    {{with .Form.Errors.Get "technologyField"}}
+                                    <p class="invalid-feedback">{{.}}</p>
+                                    {{end}}
+                                </div><!-- technology field -->
+
+                            </div>
+
+                            <div class="login-input-primary form-floating mb-3">
+                                <textarea
+                                    class="form-control {{with .Form.Errors.Get "technologyField"}}is-invalid{{end}}"
+                                    placeholder="Add a Jenkinsfile" id="fileTextArea" name="fileTextArea"
+                                    style="height: 500px"></textarea>
+                                <label for="fileTextArea">Jenkinsfile</label>
+                                {{with .Form.Errors.Get "fileTextArea"}}
+                                <p class="invalid-feedback">{{.}}</p>
+                                {{end}}
+                            </div>
+
+                            <div class="login-input-primary form-floating mb-3">
+                                <textarea
+                                    class="form-control {{with .Form.Errors.Get "technologyField"}}is-invalid{{end}}"
+                                    placeholder="Add a Jenkinsfile" id="templateFileMetadata" name="templateFileMetadata"
+                                    style="height: 500px"></textarea>
+                                <label for="templateFileMetadata">Metadata File</label>
+                                {{with .Form.Errors.Get "templateFileMetadata"}}
+                                <p class="invalid-feedback">{{.}}</p>
+                                {{end}}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-2">
+                                    <button class="w-100 btn btn-lg custom-btn" name="create" type="submit">Create
+                                    </button>
+                                </div><!-- login button -->
+                                <div class="col-2">
+                                    <!-- <a class="w-100 btn btn-lg custom-btn-outline" href="#" type="button">Clear All
+                                    </a> -->
+                                    <button class="w-100 btn btn-lg custom-btn-outline" name="reset" type="reset">Clear
+                                    </button>
+                                </div><!-- clear button -->
+                            </div>
+                            <hr class="my-4">
+                            <small class="text-muted">By clicking Automation, it will create Jenkinsfile, Dockerfile,
+                                etc in the repository.</small>
+                        </form><!-- login form -->
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+{{ end }}

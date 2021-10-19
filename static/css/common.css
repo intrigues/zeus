@@ -1,0 +1,427 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&family=Poppins:wght@100;200;300;400;500&family=Roboto+Mono:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,500&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&family=Lato:wght@100;400;700;900&family=Poppins:wght@100;200;300;400;500&family=Roboto+Mono:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+}
+
+/* ----------------------------- */
+/* utils */
+/* ----------------------------- */
+.disable-outline:focus:not(:focus-visible) {
+    border: none !important;
+    outline: none !important;
+    outline-style: none !important;
+}
+
+.vertical-center {
+    min-height: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+}
+
+.text-primary {
+    color: var(--text-primary) !important;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+/* ----------------------------- */
+/* main bg colors */
+/* ----------------------------- */
+.bg-primary {
+    background-color: var(--color-primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--color-secondary) !important;
+}
+
+/* ----------------------------- */
+/* button */
+/* ----------------------------- */
+.custom-btn {
+    background-color: var(--btn-primary) !important;
+    color: var(--btn-primary-text) !important;
+}
+
+.custom-btn:hover {
+    background-color: var(--btn-primary-hover) !important;
+    color: var(--btn-primary-hover-text) !important;
+}
+
+.custom-btn-secondary {
+    background-color: var(--btn-secondary) !important;
+}
+
+.custom-btn-outline {
+    background-color: transparent;
+    border-width: 1px;
+    border-color: var(--btn-outline);
+    color: var(--btn-outline-text);
+}
+
+.custom-btn-outline:hover {
+    background-color: var(--btn-outline-hover) !important;
+    color: var(--btn-outline-hover-text);
+}
+
+
+.custom-toggle-button {
+    font-size: 25px;
+    border-radius: 10px;
+    padding: 6px;
+    color: var(--btn-toggle-text);
+    background-color: var(--btn-toggle);
+}
+
+.custom-toggle-button:hover {
+    color: var(--btn-toggle-hover-text);
+    background-color: var(--btn-toggle-hover);
+}
+
+.btn-check:checked+.custom-toggle-button {
+    color: var(--btn-toggle-active-text);
+    background-color: var(--btn-toggle-active);
+}
+
+/* ----------------------------- */
+/* scale animation */
+/* ----------------------------- */
+.scale-hover-sm {
+    transition: .2s linear;
+}
+
+.scale-hover-sm:hover {
+    transform: scale(1.01);
+}
+
+.scale-hover-md {
+    transition: .2s linear;
+}
+
+.scale-hover-md:hover {
+    transform: scale(1.02);
+}
+
+
+.hover-selection-border {
+    transform: .2s linear;
+    border-color: var(--color-primary);
+}
+
+.hover-selection-border:hover {
+    border-width: 1px;
+    border-color: var(--color-accent-dark);
+    border-style: solid;
+}
+
+/* ----------------------------- */
+/* border radius */
+/* ----------------------------- */
+.border-radius-md {
+    border-radius: .5rem;
+}
+
+.border-radius-lg {
+    border-radius: 1rem;
+}
+
+.border-radius-xl {
+    border-radius: 1.8rem;
+}
+
+/* ----------------------------- */
+/* dropdown-menu */
+/* ----------------------------- */
+.dropdown-menu {
+    box-shadow: 0 10px 17px 0 rgb(0 0 0 / 5%);
+    border-radius: .5rem;
+    padding: .5rem 0rem;
+}
+
+.dropdown-item {
+    padding: .5rem;
+    transition: .1s linear;
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-lighter) !important;
+}
+
+/* ----------------------------- */
+/* Sidebar */
+/* ----------------------------- */
+.sidebar {
+    width: 280px;
+    position: fixed !important;
+    top: 15px;
+    bottom: 15px;
+    left: 15px;
+    background-color: var(--sidebar-primary);
+}
+
+.sidebar-secondary-card {
+    background-color: var(--sidebar-secondary-card) !important;
+    border-radius: 1rem;
+    color: var(--sidebar-secondary-card-text) !important;
+}
+
+/* ----------------------------- */
+/* Sidebar items */
+/* ----------------------------- */
+.nav-item {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: 1rem;
+    transition: .1s linear;
+}
+
+.nav-item:hover {
+    z-index: 1000 !important;
+    transform: scale(1.02);
+    box-shadow: 0 10px 17px 0 rgb(0 0 0 / 5%);
+}
+
+.nav-item-active {
+    z-index: 1000 !important;
+    transform: scale(1.02);
+    box-shadow: 0 10px 17px 0 rgb(0 0 0 / 5%);
+}
+
+.nav-link-primary {
+    color: var(--nav-item-primary-text) !important;
+    align-items: center !important;
+    padding: 8px;
+}
+
+.nav-link-primary:hover {
+    color: var(--nav-item-primary-text-hover) !important;
+}
+
+.nav-icon {
+    font-size: 25px;
+    border-radius: 10px;
+    padding: 6px;
+    margin-right: .3rem;
+    background-color: var(--nav-icon-primary) !important;
+    color: var(--nav-icon-primary-text) !important;
+}
+
+.nav-text {
+    margin-left: .5rem !important;
+}
+
+.nav-link-secondary {
+    color: var(--nav-item-secondary-text) !important;
+    align-items: center !important;
+    padding: 8px;
+}
+
+.nav-link-secondary:hover {
+    color: var(--nav-item-secondary-text-hover) !important;
+}
+
+.nav-item-primary-active {
+    background-color: var(--nav-item-primary-active) !important;
+}
+
+.nav-item-primary-active a {
+    color: var(--nav-item-primary-text-active) !important;
+}
+
+.nav-item-primary:hover {
+    background-color: var(--nav-item-primary-hover) !important;
+    color: var(--nav-item-primary-text-hover) !important;
+}
+
+.nav-item-secondary {
+    color: var(--nav-item-secondary-text-hover) !important;
+}
+
+.nav-item-secondary:hover {
+    background-color: var(--nav-item-secondary-hover) !important;
+    color: var(--nav-item-secondary-text-hover) !important;
+}
+
+.nav-item-secondary-active {
+    background-color: var(--nav-item-secondary-active) !important;
+    color: var(--nav-item-secondary-text-active) !important;
+}
+
+.nav-item-secondary-active a {
+    color: var(--nav-item-primary-text-active) !important;
+}
+
+
+/* ----------------------------- */
+/* Content */
+/* ----------------------------- */
+.content {
+    position: absolute;
+    left: calc(280px + 15px);
+    right: 0;
+}
+
+/* ----------------------------- */
+/* Cards */
+/* ----------------------------- */
+
+/* login page */
+.card-login-primary {
+    background-color: var(--card-login-primary) !important;
+    color: var(--card-login-primary-text) !important;
+}
+
+.card-login-secondary {
+    background-color: var(--card-login-secondary) !important;
+}
+
+/* content section */
+/* info card */
+.card-content-info {
+    background-color: var(--content-info-card) !important;
+    color: var(--content-info-card-text) !important;
+}
+
+.card-content-info-title {
+    color: var(--content-info-card-title) !important;
+}
+
+.card-content-info-body {
+    color: var(--content-info-card-body) !important;
+}
+
+.card-content-info-icon {
+    background-color: var(--content-info-card-secondary) !important;
+    color: var(--content-info-card-icon) !important;
+}
+
+/* primary card */
+.card-content-primary {
+    background-color: var(--content-primary-card) !important;
+}
+
+.card-content-primary-title {
+    color: var(--content-primary-card-title) !important;
+}
+
+.card-content-primary-body {
+    color: var(--content-primary-card-body) !important;
+}
+
+.card-content-primary-icon {
+    background-color: var(--content-primary-card-secondary) !important;
+    color: var(--content-primary-card-icon) !important;
+}
+
+/* secondary card */
+.card-content-secondary {
+    background-color: var(--content-secondary-card) !important;
+}
+
+.card-content-secondary-title {
+    color: var(--content-secondary-card-title) !important;
+}
+
+.card-content-secondary-body {
+    color: var(--content-secondary-card-body) !important;
+}
+
+.card-content-secondary-icon {
+    background-color: var(--content-secondary-card-secondary) !important;
+    color: var(--content-secondary-card-icon) !important;
+}
+
+/* danger card */
+.card-content-danger {
+    background-color: var(--content-danger-card) !important;
+}
+
+.card-content-danger-title {
+    color: var(--content-danger-card-title) !important;
+}
+
+.card-content-danger-body {
+    color: var(--content-danger-card-body) !important;
+}
+
+.card-content-danger-icon {
+    background-color: var(--content-secondary-card-secondary) !important;
+    color: var(--content-secondary-card-icon) !important;
+}
+
+
+/* ----------------------------- */
+/* Input */
+/* ----------------------------- */
+
+/* content section */
+.content-input-primary input {
+    background-color: var(--content-input-primary) !important;
+}
+
+.content-input-primary label {
+    color: var(--content-input-primary-text) !important;
+}
+
+.login-input-primary input {
+    border-width: 1px !important;
+    background-color: var(--login-input-primary) !important;
+    color: var(--login-input-primary-text) !important;
+}
+
+.login-input-primary select {
+    border-width: 1px !important;
+    background-color: var(--login-input-primary) !important;
+    color: var(--login-input-primary-text) !important;
+}
+
+.login-input-primary textarea {
+    border-width: 1px !important;
+    background-color: var(--login-input-primary) !important;
+    color: var(--login-input-primary-text) !important;
+}
+
+.login-input-primary label {
+    color: var(--login-input-primary-text) !important;
+}
+
+.login-input-primary input:-webkit-autofill {
+    caret-color: #fff;
+    color: #fff;
+    background: #292a2d !important;
+    -webkit-text-fill-color: var(--login-input-primary-text) !important;
+    -webkit-background-clip: text !important;
+    box-shadow: 0 0 0 50px var(--login-input-primary) inset !important;
+}
+
+/* ----------------------------- */
+/* Progressbar */
+/* ----------------------------- */
+.content-progress-primary {
+    background-color: var(--content-progress-primary) !important;
+}
+
+/* ----------------------------- */
+/* Toast */
+/* ----------------------------- */
+.toast-error {
+    background-color: var(--toast-error) !important;
+}
+
+.toast-warn {
+    background-color: var(--toast-warn) !important;
+}
+
+.toast-info {
+    background-color: var(--toast-info) !important;
+}

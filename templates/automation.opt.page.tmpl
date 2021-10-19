@@ -1,0 +1,46 @@
+{{template "basenav" .}}
+
+{{define "content"}}
+<div class="row d-flex justify-content-start mt-4">
+    {{$automationTemplate := index .Data "automationTemplates"}}
+    {{if not  $automationTemplate}}
+    <div class="col-12">
+        <div class="card-content-primary  border-0 border-radius-lg">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <h3>No templates found.. Please create one to continue</h3>
+                        <a href="/admin/templates/new"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+    {{range $key, $value := $automationTemplate}}
+    <div class="col-4 my-2">
+        <div class="border-radius-lg card-content-primary scale-hover-md py-2">
+            <label class="w-100" type="button" data-bs-toggle="collapse" data-bs-target="#{{$key}}">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex py-4 px-3">
+                        <span class="card-content-primary-body">
+                            <h3 class="m-0 fw-bold">{{$key}}</h3>
+                        </span>
+                    </div>
+                </div>
+            </label>
+            <div class="collapse" id={{$key}}>
+                <div class="container">
+                        <div class="">
+                            {{range $value}}
+                            <a class="btn btn-sm custom-btn" href="new/{{$key}}/{{.}}">{{.}}</a>
+                            {{end}}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+</div>
+{{ end }}

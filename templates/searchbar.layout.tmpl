@@ -1,0 +1,31 @@
+{{define "searchbar"}}
+<div class="row d-flex justify-content-between">
+    <div class="col-12">
+        <div class="card-content-primary border-0 border-radius-lg">
+
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div class="col-auto">
+                    <h2 class="p-0 m-0 fw-bold card-content-primary-title">
+                        {{if eq .CurrentPage "/admin/dashboard"}}Dashboard{{end}}
+                        {{if eq .CurrentPage "/admin/users/all"}}Users{{end}}
+                        {{if eq .CurrentPage "/admin/automation/all"}}Automation{{end}}
+                        {{if eq .CurrentPage "/admin/automation/new"}}Automation{{end}}
+                        {{if eq .CurrentPage "/admin/automation/opt"}}Automation{{end}}
+                        {{if eq .CurrentPage "/admin/templates/new"}}Templates{{end}}
+                        {{if eq .CurrentPage "/admin/templates/all"}}Templates{{end}}
+                    </h2>
+                </div>
+
+                <div class="col-4 my-auto">
+                    <div class="content-input-primary form-floating my-auto">
+                        <input type="search" class="form-control border-radius-lg" id="floatingInput"
+                            placeholder="search">
+                        <label for="floatingInput">Search</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{end}}

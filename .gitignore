@@ -1,0 +1,6 @@
+app
+*.db
+*.pem
+*.crt
+*.key
+go.sum

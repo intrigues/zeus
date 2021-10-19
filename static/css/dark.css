@@ -1,0 +1,127 @@
+[data-theme="dark"] {
+    /* Colors */
+    --color-primary: rgb(36, 38, 39);
+    --color-secondary: rgb(44, 45, 49);
+
+    --color-1: black;
+    --color-2: #393E46;
+    --color-3: #f8f9fa;
+    --color-4: white;
+    --text-secondary: #EEEEEE;
+
+    --color-accent-lighter: rgb(233, 244, 245);
+    --color-accent-light: #b5e446;
+    --color-accent-dark: #9DDC08;
+    /* --color-accent-dark: rgb(229, 20, 82); */
+    --color-accent-darkest: #8ac405;
+
+    /* --color-info-lighter: rgb(238, 235, 249); */
+    /* --color-info-light: rgb(224, 217, 244); */
+    /* --color-info-dark: rgb(117, 92, 207); */
+    --color-info-lighter: rgb(0, 33, 111);
+    --color-info-light: rgba(0, 33, 111, 0.733);
+    --color-info-dark: rgb(211, 216, 255);
+
+    --color-danger-lighter: rgb(253, 238, 234);
+    --color-danger-light: rgb(250, 223, 215);
+    --color-danger-dark: rgb(232, 115, 82);
+
+    /* Cards */
+    --card-login-primary: var(--color-secondary);
+    --card-login-primary-text: var(--color-3);
+    --card-login-secondary: var(--color-2);
+
+    /* Buttons */
+    --btn-primary: var(--color-accent-dark);
+    --btn-primary-text: var(--color-2);
+    --btn-primary-hover: var(--color-accent-darkest);
+    --btn-primary-hover-text: var(--color-2);
+
+    --btn-secondary: var(--color-accent-light);
+    --btn-secondary-text: var(--color-4);
+    --btn-secondary-hover: var(--color-accent-lighter);
+    --btn-secondary-hover-text: var(--color-4);
+
+    --btn-outline: var(--color-accent-dark);
+    --btn-outline-hover: var(--color-accent-dark);
+    --btn-outline-text: var(--color-accent-darkest);
+    --btn-outline-hover-text: var(--color-2);
+
+    --btn-toggle: var(--color-accent-light);
+    --btn-toggle-text: var(--color-3);
+    --btn-toggle-hover: var(--color-accent-dark);
+    --btn-toggle-hover-text: var(--color-3);
+    --btn-toggle-active: var(--color-2);
+    --btn-toggle-active-text: var(--color-3);
+
+    /* Sidebar */
+    --sidebar-primary: var(--color-secondary);
+    --sidebar-secondary: var(--color-accent-light);
+
+    /* Sidebar Nav Item Primary */
+    --nav-item-primary: null;
+    --nav-item-primary-text: var(--color-4);
+
+    --nav-item-primary-hover: var(--color-accent-light);
+    --nav-item-primary-text-hover: var(--color-1);
+
+    --nav-item-primary-active: var(--color-accent-light);
+    --nav-item-primary-text-active: var(--color-1);
+
+    /* Sidebar Nav Item Secondary */
+    --nav-item-secondary: var(--color-4);
+    --nav-item-secondary-text: var(--color-1);
+
+    --nav-item-secondary-hover: var(--color-2);
+    --nav-item-secondary-text-hover: var(--color-3);
+
+    --nav-item-secondary-active: var(--color-4);
+    --nav-item-secondary-text-active: var(--color-1);
+
+    /* Sidebar Nav Icon Primary */
+    --nav-icon-primary: var(--color-accent-light);
+    --nav-icon-primary-text: var(--color-2);
+
+    /* Sidebar Secondary Card */
+    --sidebar-secondary-card: var(--sidebar-secondary);
+    --sidebar-secondary-card-text: var(--color-1);
+
+
+    /* Content Accent Card */
+    --content-info-card: var(--color-info-lighter);
+    --content-info-card-secondary: var(--color-info-light);
+    --content-info-card-title: var(--color-3);
+    --content-info-card-body: var(--color-3);
+    --content-info-card-icon: var(--color-info-dark);
+
+    /* Content Primary Card */
+    --content-primary-card: var(--color-secondary);
+    --content-primary-card-secondary: var(--color-accent-darkest);
+    --content-primary-card-title: var(--color-3);
+    --content-primary-card-body: var(--color-3);
+    --content-primary-card-icon: var(--color-accent-darkest);
+
+    /* Content Secondary Card */
+    --content-secondary-card: var(--color-2);
+    --content-secondary-card-secondary: var(--color-accent-darkest);
+    --content-secondary-card-title: var(--color-3);
+    --content-secondary-card-body: var(--color-3);
+    --content-secondary-card-icon: var(--color-accent-darkest);
+
+    /* Content Danger Card */
+    --content-danger-card: var(--color-danger-light);
+    --content-danger-card-secondary: var(--color-accent-darkest);
+    --content-danger-card-title: var(--color-1);
+    --content-danger-card-body: var(--color-2);
+    --content-danger-card-icon: var(--color-danger-dark);
+
+    /* Content Primary Input */
+    --content-input-primary: var(--color-2);
+    --content-input-primary-text: var(--color-1);
+
+    --login-input-primary: var(--color-primary);
+    --login-input-primary-text: var(--text-secondary);
+
+    /* Progressbar Primary */
+    --content-progress-primary: var(--color-accent-dark);
+}

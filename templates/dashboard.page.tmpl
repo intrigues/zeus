@@ -1,0 +1,272 @@
+{{template "basenav" .}}
+
+{{define "content"}}
+
+<!-- stats cards -->
+<div class="row d-flex justify-content-between mt-4">
+
+  <div class="col-lg-3 col-md-6 col-sm-12 mt-md-2 mt-sm-2">
+
+    <div class="card-content-info border-0 border-radius-lg scale-hover-md">
+      <div class="card-body d-flex align-items-center justify-content-between">
+
+        <div class="col-auto">
+          <h2 class="p-0 m-0 card-content-info-title">21</h2>
+          <p class="p-0 m-0 card-content-info-body">Clients</p>
+        </div>
+
+        <div class="col-auto">
+          <i class='bx bx-group nav-icon p-3 fs-1 card-content-info-icon' aria-hidden="true" aria-hidden="true"></i>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-12 mt-sm-2">
+
+    <div class="card-content-info border-0 border-radius-lg scale-hover-md">
+      <div class="card-body d-flex align-items-center justify-content-between">
+
+        <div class="col-auto">
+          <h2 class="p-0 m-0 card-content-info-title">7</h2>
+          <p class="p-0 m-0 card-content-info-body">Revoked</p>
+        </div>
+
+        <div class="col-auto">
+          <i class='bx bx-x nav-icon p-3 fs-1 card-content-info-icon' aria-hidden="true" aria-hidden="true"></i>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-12 mt-md-2 mt-sm-2">
+
+    <div class="card-content-info border-0 border-radius-lg scale-hover-md">
+      <div class="card-body d-flex align-items-center justify-content-between">
+
+        <div class="col-auto">
+          <h2 class="p-0 m-0 card-content-info-title">122</h2>
+          <p class="p-0 m-0 card-content-info-body">Uptime</p>
+        </div>
+
+        <div class="col-auto">
+          <i class='bx bx-stopwatch nav-icon p-3 fs-1 card-content-info-icon' aria-hidden="true" aria-hidden="true"></i>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-12 mt-md-2 mt-sm-2">
+
+    <div class="card-content-info border-0 border-radius-lg scale-hover-md">
+      <div class="card-body d-flex align-items-center justify-content-between">
+
+        <div class="col-auto">
+          <h2 class="p-0 m-0 card-content-info-title">2.34</h2>
+          <p class="p-0 m-0 card-content-info-body">Version</p>
+        </div>
+
+        <div class="col-auto">
+          <i class='bx bx-info-circle nav-icon p-3 fs-1 card-content-info-icon' aria-hidden="true"
+            aria-hidden="true"></i>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- system info -->
+<div class="row d-flex justify-content-between mt-4">
+  <div class="col-12">
+
+    <div class="card-content-primary border-0 border-radius-lg pb-3">
+      <div class="card-body">
+        <div class="card-title">
+          <h4 class="p-0 m-0 card-content-primary-title">Machine Status</h4>
+        </div>
+        <div class="row">
+          <!-- Memory -->
+          <div class="card-content-primary-body col-md-6 col-sm-12 col-lg-6">
+            <div>
+              <p class="p-0 m-0">Memory</p>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div class="progress-bar content-progress-primary w-75" role="progressbar" aria-valuenow="75"
+                aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <!-- CPU -->
+          <div class="card-content-primary-body col-md-6 col-sm-12 col-lg-6">
+            <div>
+              <p class="p-0 m-0">CPU</p>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div class="progress-bar content-progress-primary w-25" role="progressbar" aria-valuenow="75"
+                aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- Swap -->
+          <div class="card-content-primary-body col-md-6 col-sm-12 col-lg-6">
+            <div>
+              <p class="p-0 m-0">Swap</p>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div class="progress-bar content-progress-primary w-25" role="progressbar" aria-valuenow="75"
+                aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+          <!-- Disk -->
+          <div class="card-content-primary-body col-md-6 col-sm-12 col-lg-6">
+            <div>
+              <p class="p-0 m-0">Disk</p>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div class="progress-bar content-progress-primary w-25" role="progressbar" aria-valuenow="75"
+                aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- connected clients -->
+<div class="row d-flex justify-content-between mt-4">
+  <div class="col-12">
+
+    <div class="card-content-primary  border-0 border-radius-lg pb-3">
+      <div class="card-body">
+        <div class="card-title">
+          <h4 class="p-0 m-0 card-content-primary-title">Connected Clients</h4>
+        </div>
+        <div class="row">
+
+          <!-- user-1 -->
+          <div class="col-12 mt-2">
+
+            <div class="d-flex justify-content-between card-content-secondary border-radius-lg scale-hover-sm">
+              <div class="card-content-secondary-body d-flex py-4 px-3">
+                <span class="d-flex align-items-center">
+                  <p class="card-content-secondary-body m-0 fw-bold">Jhon Doe</p>
+                </span>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <p class="m-0">192.168.0.1</p>
+                <button type="button" class="btn custom-btn-secondary p-0 ms-2">
+                  <i class='bx bx-copy-alt m-2' aria-hidden="true"></i>
+                </button>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <label class="p-0 me-1 d-flex align-items-center">
+                  <i class='bx bx-chevrons-down fs-5' aria-hidden="true"></i>
+                </label>
+                <p class="m-0">588 kB</p>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <label class="p-0 me-1 d-flex align-items-center">
+                  <i class='bx bx-chevrons-up fs-5' aria-hidden="true"></i>
+                </label>
+                <p class="m-0">1822 kB</p>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center chip-info">
+                <label class="p-0 me-1 d-flex align-items-center">
+                  <i class='bx bx-time-five fs-5' aria-hidden="true"></i>
+                </label>
+                <p class="m-0">Fri Apr 7, 09:11:24</p>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <button class="p-1 m-0 d-flex align-items-center btn" type="button" id="cononectedDeviceAction"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class='bx bx-dots-vertical-rounded fs-4' aria-hidden="true"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="cononectedDeviceAction">
+                  <li><a class="dropdown-item" href="#">Disconnect</a></li>
+                  <li><a class="dropdown-item" href="#">Revoke</a></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- user-2 -->
+          <div class="col-12 mt-2">
+
+            <div class="d-flex justify-content-between card-content-secondary border-radius-lg scale-hover-sm">
+              <div class="card-content-secondary-body d-flex py-4 px-3">
+                <span class="d-flex align-items-center">
+                  <p class="card-content-secondary-body m-0 fw-bold">Jhon Doe</p>
+                </span>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <p class="m-0">192.168.0.1</p>
+                <button type="button" class="btn custom-btn-secondary p-0 ms-2">
+                  <i class='bx bx-copy-alt m-2' aria-hidden="true"></i>
+                </button>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <label class="p-0 me-1 d-flex align-items-center">
+                  <i class='bx bx-chevrons-down fs-5' aria-hidden="true"></i>
+                </label>
+                <p class="m-0">588 kB</p>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <label class="p-0 me-1 d-flex align-items-center">
+                  <i class='bx bx-chevrons-up fs-5' aria-hidden="true"></i>
+                </label>
+                <p class="m-0">1822 kB</p>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center chip-info">
+                <label class="p-0 me-1 d-flex align-items-center">
+                  <i class='bx bx-time-five fs-5' aria-hidden="true"></i>
+                </label>
+                <p class="m-0">Fri Apr 7, 09:11:24</p>
+              </div>
+
+              <div class="card-content-secondary-body d-flex py-4 px-3 align-items-center">
+                <button class="p-1 m-0 d-flex align-items-center btn" type="button" id="cononectedDeviceAction"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class='bx bx-dots-vertical-rounded fs-4' aria-hidden="true"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="cononectedDeviceAction">
+                  <li><a class="dropdown-item" href="#">Disconnect</a></li>
+                  <li><a class="dropdown-item" href="#">Revoke</a></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{{end}}
