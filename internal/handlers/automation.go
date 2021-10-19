@@ -64,7 +64,7 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 	projectName := chi.URLParam(r, "projectName")
 	technology := chi.URLParam(r, "technology")
 
-	fileName := chi.URLParam(r, "filenameField")
+	fileName := r.Form.Get("filenameField")
 	gitBranchDropDown := r.Form.Get("gitBranchDropDown")
 
 	var automationTemplates models.AutomationTemplates
@@ -107,11 +107,15 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 
 	//commiting the file
 	gitRepo := m.App.Session.Get(r.Context(), "gitRepo").(models.Git)
-	m.App.ErrorLog.Println("Branch --->", gitRepo.GetHeadBranch())
 
 	err = gitRepo.PublishChanges(fileName, renderedTemplateFile, gitBranchDropDown)
+	gitRepo.FetchRemote()
+	gitRepo.CheckoutToBranch(gitBranchDropDown)
+	files, err := gitRepo.GetListOffiles()
 	if err != nil {
 		m.App.ErrorLog.Println("error publishing the changes to git", err)
+	} else {
+		m.App.ErrorLog.Println("files", files)
 	}
 	m.App.InfoLog.Println("changes successfully pushed to git")
 	// redirecting on success
