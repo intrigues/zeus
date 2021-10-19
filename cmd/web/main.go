@@ -1,9 +1,12 @@
 package main
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/gob"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"time"
@@ -14,6 +17,7 @@ import (
 	"github.com/intrigues/zeus-automation/internal/helpers"
 	"github.com/intrigues/zeus-automation/internal/models"
 	"github.com/intrigues/zeus-automation/internal/render"
+	"golang.org/x/crypto/bcrypt"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/sqlite"
@@ -70,6 +74,7 @@ func run() error {
 
 	// get environment variables
 	runEnv := os.Getenv("RUN_ENV")
+	createAdminUser := os.Getenv("CREATE_ADMIN_USER")
 
 	// database initialization
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
@@ -78,8 +83,10 @@ func run() error {
 		return err
 	}
 	db.AutoMigrate(&models.Users{}, &models.AutomationTemplates{})
-	// db.AutoMigrate()
 	app.DB = db
+	if createAdminUser == "TRUE" {
+		createDefaultUser()
+	}
 
 	// session store
 	gob.Register(models.Users{})
@@ -125,4 +132,37 @@ func run() error {
 	helpers.NewHelpers(&app)
 
 	return nil
+}
+
+func createDefaultUser() {
+	defaultAdminUsername := os.Getenv("DEFAULT_ADMIN_USERNAME")
+	defaultAdminEmail := os.Getenv("DEFAULT_ADMIN_EMAIL")
+	defaultAdminPassword := os.Getenv("DEFAULT_ADMIN_PASSWORD")
+
+	if defaultAdminUsername == "" {
+		defaultAdminUsername = "admin"
+	}
+	if defaultAdminEmail == "" {
+		defaultAdminEmail = "admin@example.com"
+	}
+	if defaultAdminPassword == "" {
+		passwordLength := 24
+		buff := make([]byte, int(math.Ceil(float64(passwordLength)/float64(1.33333333333))))
+		rand.Read(buff)
+		defaultAdminPassword = base64.RawURLEncoding.EncodeToString(buff)[:passwordLength]
+		log.Println(fmt.Sprintf("Admin Password: %s", string(defaultAdminPassword)))
+	}
+
+	password_hash, err := bcrypt.GenerateFromPassword([]byte(defaultAdminPassword), 0)
+	if err != nil {
+		log.Println("Error generating default admin password hash.")
+	}
+	app.DB.Create(&models.Users{
+		Username:          defaultAdminUsername,
+		Email:             defaultAdminEmail,
+		Password:          string(password_hash),
+		IncorrectPassword: 0,
+		Status:            1,
+		Role:              "Admin",
+	})
 }
