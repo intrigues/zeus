@@ -15,29 +15,47 @@ import (
 	"github.com/intrigues/zeus-automation/internal/models"
 	"github.com/intrigues/zeus-automation/internal/render"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
-
-const portNumber = "localhost:8080"
 
 var app config.AppConfig
 var session *scs.SessionManager
 var infoLog *log.Logger
 var errorLog *log.Logger
+var addr string
 
 // main is the main function
 func main() {
 
-	err := run()
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Error loading .env file. Falling back to default configurations.")
+	}
+
+	// get environment variables
+	host := os.Getenv("HOSTNAME")
+	port := os.Getenv("PORT")
+
+	if host == "" {
+		host = "localhost"
+	}
+	if port == "" {
+		port = "8080"
+	}
+
+	addr = fmt.Sprintf("%s:%s", host, port)
+
+	err = run()
 	if err != nil {
 		log.Fatal("Error starting theapplication", err)
 	}
 
-	fmt.Printf("Staring application on port %s", portNumber)
+	log.Printf("Staring application on %s", addr)
 
 	srv := &http.Server{
-		Addr:    portNumber,
+		Addr:    addr,
 		Handler: routes(&app),
 	}
 
@@ -49,10 +67,14 @@ func main() {
 }
 
 func run() error {
+
+	// get environment variables
+	runEnv := os.Getenv("RUN_ENV")
+
 	// database initialization
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
-		log.Fatal("error initializing database")
+		log.Fatal("Error initializing database")
 		return err
 	}
 	db.AutoMigrate(&models.Users{}, &models.AutomationTemplates{})
@@ -64,7 +86,13 @@ func run() error {
 	gob.Register(models.Git{})
 
 	// change this to true when in production
-	app.InProduction = false
+	if runEnv == "PRODUCTION" {
+		app.InProduction = true
+		log.Println("Application is running in production mode")
+	} else {
+		app.InProduction = false
+		log.Println("Application is running in development mode")
+	}
 
 	// logger setup
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime|log.Lshortfile)
@@ -88,7 +116,7 @@ func run() error {
 	}
 
 	app.TemplateCache = tc
-	app.UseCache = false
+	app.UseCache = app.InProduction
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
