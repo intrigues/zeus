@@ -14,68 +14,64 @@
                     <div class="col-12 mt-2">
                         <form class="border-radius-lg" action="" method="post">
                             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}"><!-- hidden csrf -->
-                            <div class="my-2">
-                                <b>Common Configuration</b>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="login-input-primary form-floating mb-3 pe-1 col">
-                                    <input type="hidden" name="csrf_token" id="csrf_token" value="{{.CSRFToken}}">
-                                    <!-- hidden csrf -->
-                                    <input type="text" class="form-control" id="gitUrlField" name="gitUrlField"
-                                        placeholder="https://github.com/automation" required>
-                                    <label for="gitUrlField">Git URL</label>
-                                </div><!-- git url field -->
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="login-input-primary form-floating pe-1 mb-3 col">
-                                    <input type="text" class="form-control" id="usernameField" name="usernameField"
-                                        placeholder="Username" required>
-                                    <label for="usernameField">Git Username</label>
-                                </div><!-- git username field -->
-                                <div class="login-input-primary form-floating ps-1 mb-3 col">
-                                    <input type="password" class="form-control" id="passwordField" name="passwordField"
-                                        placeholder="Password" required>
-                                    <label for="passwordField">Git Password</label>
-                                </div><!-- git password field -->
-                            </div>
-
-                            <div class="d-flex justify-content-between w-100">
-                                <div class="d-flex justify-content-between w-100">
-                                    <div class="login-input-primary form-floating pe-1 mb-3 w-100">
-                                        <div class="form-floating">
-                                            <select class="form-select" id="gitBranchDropDown" name="gitBranchDropDown"
-                                                aria-label="Floating label select example" required>
-                                            </select>
-                                            <label for="gitBranchDropDown">Select Remote Branche</label>
-                                        </div>
-                                    </div><!-- git branch field -->
-                                    <div
-                                        class="login-input-primary d-flex justify-content-between form-floating ps-1 pe-1 mb-3">
-                                        <button class="btn custom-btn d-flex align-items-center" type="button"
-                                            id="gitBranchButton" name="gitBranchButton">
-                                            <span id="gitBranchLoading" class="spinner-border" style="display: none;" role="status" aria-hidden="true"></span>
-                                            <i id="gitBranchLoaded" class='bx bx-refresh fs-3'></i>
-                                        </button>
-                                    </div><!-- git refresh button -->
+                            <div class="p-3 rounded-3 border border-light bg-light mb-3">
+                                <div class="my-2">
+                                    <b>Common Configuration</b>
                                 </div>
-                                <div class="login-input-primary form-floating ps-1 mb-3 col-6">
-                                    <input type="text" class="form-control" id="filenameField" name="filenameField"
-                                        placeholder="File Name" required>
-                                    <label for="filenameField">Filename</label>
-                                </div><!-- git password field -->
+                                <div class="d-flex justify-content-between">
+                                    <div class="login-input-primary form-floating mb-3 pe-1 col">
+                                        <input type="hidden" name="csrf_token" id="csrf_token" value="{{.CSRFToken}}">
+                                        <!-- hidden csrf -->
+                                        <input type="text" class="form-control" id="gitUrlField" name="gitUrlField"
+                                            placeholder="https://github.com/automation" required>
+                                        <label for="gitUrlField">Git URL</label>
+                                    </div><!-- git url field -->
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="login-input-primary form-floating pe-1 mb-3 col">
+                                        <input type="text" class="form-control" id="gitUsernameField" name="gitUsernameField"
+                                            placeholder="Username" required>
+                                        <label for="gitUsernameField">Git Username</label>
+                                    </div><!-- git username field -->
+                                    <div class="login-input-primary form-floating ps-1 mb-3 col">
+                                        <input type="password" class="form-control" id="gitPasswordField" name="gitPasswordField"
+                                            placeholder="Password" required>
+                                        <label for="gitPasswordField">Git Password</label>
+                                    </div><!-- git password field -->
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                        <div class="login-input-primary form-floating pe-1 mb-3 w-100">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="gitBranchDropDown" name="gitBranchDropDown"
+                                                    aria-label="Floating label select example">
+                                                </select>
+                                                <label for="gitBranchDropDown">Select Remote Branche</label>
+                                            </div>
+                                        </div><!-- git branch field -->
+                                        <div
+                                            class="login-input-primary d-flex justify-content-between form-floating ps-1 mb-3">
+                                            <button class="btn custom-btn d-flex align-items-center" type="button"
+                                                id="gitBranchButton" name="gitBranchButton">
+                                                <span id="gitBranchLoading" class="spinner-border" style="display: none;" role="status" aria-hidden="true"></span>
+                                                <i id="gitBranchLoaded" class='bx bx-refresh fs-3'></i>
+                                            </button>
+                                        </div><!-- git refresh button -->
+                                </div>
                             </div>
 
-                            <div class="my-2">
-                                <b>Template Variables</b>
-                            </div>
                             {{$formVariable := index .Data "formVariables"}}
-                            {{range  $formVariable}}
-                            <div class="d-flex justify-content-between">
-                                <div class="login-input-primary form-floating pe-1 mb-3 col">
-                                    <input type="text" class="form-control" id="{{.Name}}" name="{{.Name}}"
-                                        placeholder="{{.Hint}}" required>
-                                    <label for="{{.Name}}">{{ .Hint }}</label>
-                                </div>
+                            {{range $key, $value := $formVariable}}
+                            <div class="my-2 p-3 rounded-3 border border-light bg-light mb-3">
+                                <b>Template Variables for {{$key}}</b>
+                                {{range  $value}}
+                                    <div class="d-flex justify-content-between">
+                                        <div class="login-input-primary form-floating pe-1 mb-3 col">
+                                            <input type="text" class="form-control" id="{{$key}}-{{.Name}}" name="{{$key}}-{{.Name}}"
+                                                placeholder="{{.Hint}}" required>
+                                            <label for="{{$key}}-{{.Name}}">{{ .Hint }}</label>
+                                        </div>
+                                    </div>
+                                {{end}}
                             </div>
                             {{end}}
                             <div class="row">
@@ -90,8 +86,7 @@
                                 </div><!-- reset button -->
                             </div>
                             <hr class="my-4">
-                            <small class="text-muted">By clicking Automation, it will create Jenkinsfile, Dockerfile,
-                                etc in the repository.</small>
+                            <small class="text-muted">By clicking Automation, it will add files to your git repository.</small>
                         </form>
                     </div>
                 </div>

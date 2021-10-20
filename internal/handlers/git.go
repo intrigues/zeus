@@ -17,7 +17,6 @@ func (m *Repository) FetchGitBranch(w http.ResponseWriter, r *http.Request) {
 		GitUsername: gitUsername,
 		GitPassword: gitPassword,
 		GitUrl:      gitUrl,
-		Directory:   "/tmp/zeus/",
 	}
 	gitRepo.Initialize()
 	listOfBranches, err := gitRepo.ListBranches()

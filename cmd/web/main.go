@@ -10,13 +10,13 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/intrigues/zeus-automation/internal/config"
+	appconst "github.com/intrigues/zeus-automation/internal/constant"
 	"github.com/intrigues/zeus-automation/internal/handlers"
 	"github.com/intrigues/zeus-automation/internal/helpers"
 	"github.com/intrigues/zeus-automation/internal/models"
 	"github.com/intrigues/zeus-automation/internal/render"
-	"golang.org/x/crypto/bcrypt"
-
 	"github.com/joho/godotenv"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -72,6 +72,13 @@ func run() error {
 	// get environment variables
 	runEnv := os.Getenv("RUN_ENV")
 	createAdminUser := os.Getenv("CREATE_ADMIN_USER")
+
+	err := helpers.MakeDirectory(appconst.GetDataDir())
+	log.Println("Creating data directory: ", appconst.GetDataDir())
+	if err != nil {
+		log.Fatal("Error creating default data dir. Please make sure you have proper permissions in place", err)
+		return err
+	}
 
 	// database initialization
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
@@ -143,10 +150,7 @@ func createDefaultUser() {
 		defaultAdminEmail = "admin@example.com"
 	}
 	if defaultAdminPassword == "" {
-		defaultAdminPassword, err := helpers.GenerateRandomString(24)
-		if err != nil {
-			log.Println("Error creating random string")
-		}
+		defaultAdminPassword := helpers.GenerateRandomString(24)
 		log.Println(fmt.Sprintf("Admin Password: %s", string(defaultAdminPassword)))
 	}
 
