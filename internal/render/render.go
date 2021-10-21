@@ -8,13 +8,31 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/intrigues/zeus-automation/internal/config"
 	"github.com/intrigues/zeus-automation/internal/models"
 	"github.com/justinas/nosurf"
 )
 
-var functions = template.FuncMap{}
+var functions = template.FuncMap{
+	"returnCurrentPage": func(url string) string {
+		var page string
+		if strings.Contains(url, "automation") {
+			page = "Automation"
+		}
+		if strings.Contains(url, "dashboard") {
+			page = "Dashboard"
+		}
+		if strings.Contains(url, "templates") {
+			page = "Templates"
+		}
+		if strings.Contains(url, "users") {
+			page = "Users"
+		}
+		return page
+	},
+}
 
 var app *config.AppConfig
 var pathToTemplates = "./templates"
