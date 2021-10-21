@@ -58,6 +58,17 @@
     color: var(--btn-primary-hover-text) !important;
 }
 
+.chip-btn {
+    padding: 4px 15px;
+    background-color: var(--btn-secondary) !important;
+    color: var(--color-1) !important;
+}
+
+.chip-btn:hover {
+    background-color: var(--btn-secondary-hover) !important;
+    color: var(--btn-1) !important;
+}
+
 .custom-btn-secondary {
     background-color: var(--btn-secondary) !important;
 }
@@ -127,6 +138,10 @@
 /* ----------------------------- */
 /* border radius */
 /* ----------------------------- */
+.border-radius-sm {
+    border-radius: .5rem;
+}
+
 .border-radius-md {
     border-radius: .5rem;
 }

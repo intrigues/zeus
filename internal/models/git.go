@@ -31,8 +31,8 @@ func (g *Git) Initialize() error {
 }
 
 func (g *Git) SetDirectory() {
-	folderName, _ := helpers.GenerateRandomString(20)
-	dataDir := appconst.GetDataDirectory()
+	folderName := helpers.GenerateRandomString(20)
+	dataDir := appconst.GetDataDir()
 	dir := fmt.Sprintf("%s/%s", dataDir, folderName)
 	g.Directory = dir
 }

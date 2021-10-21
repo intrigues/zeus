@@ -52,9 +52,8 @@
                 </a>
             </li>
             <li
-                class="nav-item nav-item-primary {{if eq .CurrentPage "/admin/automation/all"}}nav-item-active nav-item-primary-active{{end}}">
-                <a href="/admin/automation/all" class="nav-link nav-link-primary d-flex">
-                    <!-- <i class='bx bxs-dashboard nav-icon' aria-hidden="true"></i> -->
+                class="nav-item nav-item-primary {{if eq .CurrentPage "/admin/automation/opt"}}nav-item-active nav-item-primary-active{{end}}">
+                <a href="/admin/automation/opt" class="nav-link nav-link-primary d-flex">
                     <i class='bx bxs-rocket nav-icon' aria-hidden="true" ></i>
                     <span class="nav-text">Automation</span>
                 </a>
@@ -75,58 +74,6 @@
             </li>
         </ul>
 
-        <div class="sidebar-secondary-card py-1">
-
-            <label class="d-flex justify-content-between py-2 px-3 " type="button"
-                data-bs-toggle="collapse" data-bs-target="#appCollapse" aria-expanded="false"
-                aria-controls="appCollapse">
-
-                <div class="d-flex align-items-center">
-                    <i class='bx bxs-rocket nav-icon' aria-hidden="true" ></i>
-                    <span class="nav-text">Automation</span>
-                </div>
-                <div class="d-flex align-items-center">
-                    <i class='bx bx-down-arrow-alt fs-5' aria-hidden="true"></i>
-                </div>
-            </label>
-
-            <div class="collapse" id="appCollapse">
-                <div class="container">
-                    <hr class="my-2 mx-3 p-0">
-
-                    <ul class="nav flex-column mb-auto">
-
-                        <li class="nav-item nav-item-secondary">
-                            <a href="/automation" class="nav-link nav-link-secondary d-flex">
-                                <i class='bx bx-lock-open nav-icon' aria-hidden="true"></i>
-                                <span class="nav-text">OpenVPN</span>
-                            </a>
-                        </li>
-                        <li class="nav-item nav-item-secondary">
-                            <a href="" class="nav-link nav-link-secondary d-flex">
-                                <i class='bx bxl-kubernetes nav-icon' aria-hidden="true"></i>
-                                <span class="nav-text">Kubernetes</span>
-                            </a>
-                        </li>
-                        <li class="nav-item nav-item-secondary">
-                            <a href="" class="nav-link nav-link-secondary d-flex">
-                                <i class='bx bx-trending-up nav-icon' aria-hidden="true"></i>
-                                <span class="nav-text">Uptime</span>
-                            </a>
-                        </li>
-                        <li class="nav-item nav-item-secondary">
-                            <a href="" class="nav-link nav-link-secondary d-flex">
-                                <i class='bx bxl-docker nav-icon' aria-hidden="true"></i>
-                                <span class="nav-text">Docker</span>
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </div>
-            </div>
-
-        </div>
     </div>
 </nav>
 {{end}}

@@ -25,14 +25,14 @@ func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	email := r.Form.Get("emailField")
+	username := r.Form.Get("usernameField")
 	password := r.Form.Get("passwordField")
 
 	form := forms.New(r.PostForm)
-	form.Required("emailField", "passwordField")
-	form.IsEmail("emailField")
+	form.Required("usernameField", "passwordField")
 
 	if !form.Valid() {
+		m.App.Session.Put(r.Context(), "error", "Please enter valid username/password")
 		render.RenderTemplate(w, r, "login.page.tmpl", &models.TemplateData{
 			Form: form,
 		})
@@ -40,13 +40,14 @@ func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var user models.Users
-	m.App.DB.First(&user, "email = ?", email)
+	m.App.DB.First(&user, "username = ?", username)
 
 	// authenticate method
 	// TODO: isolate this method in models/controllers
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "Invalid login credentials")
+		m.App.InfoLog.Println("invalid login credentials:", err)
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}

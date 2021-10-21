@@ -6,16 +6,11 @@ import (
 
 type AutomationTemplates struct {
 	gorm.Model
-	ProjectName      string
-	Technology       string
-	UserID           int
-	User             Users `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	TemplateFile     []byte
-	TemplateMetaData []byte
-}
-
-func (a AutomationTemplates) GetTemplateFile() string {
-	return string(a.TemplateFile)
+	ID          string
+	ProjectName string
+	Technology  string
+	UserID      int
+	User        Users `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 type AutomationMetadata struct {

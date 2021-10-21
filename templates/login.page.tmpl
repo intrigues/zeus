@@ -9,7 +9,7 @@
         <h1 class="display-4 fw-bold lh-1 mb-3">Log in</h1>
         <hr>
         <p class="col-lg-10 fs-4">
-          Create quick to deploy and easy to use solution that makes work with small OpenVPN environments a breeze.
+          With this tool we are trying generalize and minimize devops reperating task while trying to encourage shared responsibility model acorss devloper teams.
         </p>
       </div><!-- login header -->
 
@@ -17,9 +17,9 @@
         <form class="card-login-secondary p-4 p-md-5 border-radius-lg" action="" method="post">
           <input type="hidden" name="csrf_token" value="{{.CSRFToken}}"><!-- hidden csrf -->
           <div class="login-input-primary form-floating mb-3">
-            <input type="email" class="form-control" id="emailField" name="emailField" placeholder="name@example.com">
-            <label for="emailField">Email address</label>
-          </div><!-- email field -->
+            <input type="username" class="form-control" id="usernameField" name="usernameField" placeholder="name@example.com">
+            <label for="usernameField">Username</label>
+          </div><!-- username field -->
           <div class="login-input-primary form-floating mb-3">
             <input type="password" class="form-control" id="passwordField" name="passwordField" placeholder="Password">
             <label for="passwordField">Password</label>
@@ -31,11 +31,11 @@
           </div><!-- remember me -->
           <div class="row justify-content-between">
             <div class="col-6">
-              <button class="w-100 btn btn-lg text-white bg-primary-dark custom-btn" name="log-in" type="submit">Log in
+              <button class="w-100 fs-6 btn btn-lg text-white bg-primary-dark custom-btn" name="log-in" type="submit">LOG IN
               </button>
             </div><!-- login button -->
             <div class="col-6">
-              <a class="w-100 btn btn-lg custom-btn-outline" href="/signup" type="button">Sign up
+              <a class="w-100 fs-6 btn btn-lg custom-btn-outline" href="/signup" type="button">SIGN UP
               </a>
             </div><!-- signup button -->
           </div>

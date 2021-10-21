@@ -2,7 +2,7 @@
 
 {{define "content"}}
 <div class="container vertical-center">
-  <div class="py-3 px-5 bg-primary-light align-items-center border-radius-xl">
+  <div class="card-login-primary py-3 px-5 bg-primary-light align-items-center border-radius-xl">
     <div class="row align-items-center py-5">
       <div class="col-lg-7 text-center text-lg-start">
         <h1 class="display-4 fw-bold lh-1 mb-3">Sign Up</h1>
@@ -14,7 +14,7 @@
       <div class="col-md-10 mx-auto col-lg-5">
         <form class="p-4 p-md-5 border-radius-lg bg-white" action="" method="post">
           <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
-          <div class="form-floating mb-3">
+          <div class="login-input-primary form-floating mb-3">
             <input type="text" class="form-control {{with .Form.Errors.Get "usernameField"}}is-invalid{{end}}"
               id="usernameField" name="usernameField" placeholder="Username">
             <label for="usernameField">Username</label>
@@ -22,7 +22,7 @@
             <p class="invalid-feedback">{{.}}</p>
             {{end}}
           </div>
-          <div class="form-floating mb-3">
+          <div class="login-input-primary form-floating mb-3">
             <input type="email" class="form-control {{with .Form.Errors.Get "emailField"}}is-invalid{{end}}"
               id="emailField" name="emailField" placeholder="name@example.com">
             <label for="emailField">Email address</label>
@@ -30,7 +30,7 @@
             <p class="invalid-feedback">{{.}}</p>
             {{end}}
           </div>
-          <div class="form-floating mb-3">
+          <div class="login-input-primary form-floating mb-3">
             <input type="password" class="form-control {{with .Form.Errors.Get "passwordField"}}is-invalid{{end}}"
               id="passwordField" name="passwordField" placeholder="Password">
             <label for="passwordField">Password</label>
@@ -38,7 +38,7 @@
             <p class="invalid-feedback">{{.}}</p>
             {{end}}
           </div>
-          <div class="form-floating mb-3">
+          <div class="login-input-primary form-floating mb-3">
             <select class="form-select {{with .Form.Errors.Get "roleSelector"}}is-invalid{{end}}" id="roleSelector"
               name="roleSelector" aria-label="Select your role">
               <option selected>Select your role</option>
@@ -49,11 +49,11 @@
           </div>
           <div class="row justify-content-between">
             <div class="col-6">
-              <button class="w-100 btn btn-lg text-white bg-primary-dark custom-btn" name="sign-up" type="submit">Sign up
+              <button class="w-100 fs-6 btn btn-lg text-white bg-primary-dark custom-btn" name="sign-up" type="submit">SIGN UP
               </button>
             </div>
             <div class="col-6">
-              <a class="w-100 btn btn-lg custom-btn-outline" href="/login" type="button">Back to Log in
+              <a class="w-100 fs-6 btn btn-lg custom-btn-outline" href="/login" type="button">BACK TO LOGIN
               </a>
             </div>
           </div>
