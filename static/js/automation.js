@@ -8,8 +8,8 @@ $.ajaxSetup({
 $('#gitBranchButton').on('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
-    let git_username = $("#usernameField").val();
-    let git_password = $("#passwordField").val();
+    let git_username = $("#gitUsernameField").val();
+    let git_password = $("#gitPasswordField").val();
     let git_url = $("#gitUrlField").val();
 
     $("#gitBranchLoading").show();

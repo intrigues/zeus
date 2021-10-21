@@ -8,6 +8,7 @@ import (
 )
 
 func (m *Repository) FetchGitBranch(w http.ResponseWriter, r *http.Request) {
+	m.App.InfoLog.Println("Fetching Git Branch")
 	gitUsername := r.FormValue("git_username")
 	gitPassword := r.FormValue("git_password")
 	gitUrl := r.FormValue("git_url")
@@ -18,16 +19,22 @@ func (m *Repository) FetchGitBranch(w http.ResponseWriter, r *http.Request) {
 		GitPassword: gitPassword,
 		GitUrl:      gitUrl,
 	}
+
 	gitRepo.Initialize()
+	m.App.InfoLog.Println("Fetching Git Branch: git initialized")
 	listOfBranches, err := gitRepo.ListBranches()
+	m.App.InfoLog.Println("Fetching Git Branch: Branch fetched")
 	if err != nil {
-		m.App.ErrorLog.Println("error listing branch")
+		m.App.ErrorLog.Println("error in listing branch")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("error"))
+		return
 	}
 	m.App.Session.Put(r.Context(), "gitRepo", &gitRepo)
 
 	jsonResp, err := json.Marshal(listOfBranches)
 	if err != nil {
-		m.App.ErrorLog.Printf("error listing branch: %s", err)
+		m.App.ErrorLog.Printf("error in matchaling branch: %s", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error"))
 		return
