@@ -27,13 +27,14 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/logout", handlers.Repo.GetLogout)
 
 	mux.Route("/admin", func(mux chi.Router) {
-		// mux.Use(Auth)
+		mux.Use(Auth)
 		mux.Get("/dashboard", handlers.Repo.GetDashboard)
 		mux.Route("/users", func(r chi.Router) {
 			r.Get("/all", handlers.Repo.GetUsers)
 			r.Route("/{username}", func(r chi.Router) {
 				r.Get("/activate", handlers.Repo.ActivateUser)
 				r.Get("/deactivate", handlers.Repo.DeactivateUser)
+				r.Get("/delete", handlers.Repo.DeleteUser)
 			})
 		})
 		mux.Route("/automation", func(r chi.Router) {
