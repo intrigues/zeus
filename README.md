@@ -10,6 +10,7 @@ With this tool we are trying generalize and minimize devops reperating task whil
 - `DEFAULT_ADMIN_EMAIL`: Email for admin user (created only if - `CREATE_ADMIN_USER` env is set to `TRUE`) (default: admin@example.com)
 - `DEFAULT_ADMIN_PASSWORD`: Password for admin user (created only if - `CREATE_ADMIN_USER` env is set to `TRUE`) (default: nil -> It will be printed in logs)
 - `DATA_DIR=./data`: Persistent data storage (make sure this directory has required permission)
+- `AUTOMATION_NEW_BRANCH_PREFIX`: Prefix for the new branch in automation (default is `zeus-automation`)
 
 # Usage Instructions
 - Add a template
