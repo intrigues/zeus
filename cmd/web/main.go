@@ -150,8 +150,8 @@ func createDefaultUser() {
 		defaultAdminEmail = "admin@example.com"
 	}
 	if defaultAdminPassword == "" {
-		defaultAdminPassword := helpers.GenerateRandomString(24)
-		log.Println(fmt.Sprintf("Admin Password: %s", string(defaultAdminPassword)))
+		defaultAdminPassword = helpers.GenerateRandomString(24)
+		log.Println(fmt.Sprintf("Admin Password: %s", defaultAdminPassword))
 	}
 
 	password_hash, err := bcrypt.GenerateFromPassword([]byte(defaultAdminPassword), 0)
