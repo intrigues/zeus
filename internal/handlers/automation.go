@@ -79,7 +79,7 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 	technology := chi.URLParam(r, "technology")
 
 	// fetching form data
-	// gitBranchDropDown := r.Form.Get("gitBranchDropDown")
+	gitBranchDropDown := r.Form.Get("gitBranchDropDown")
 
 	// validating and retriving the template
 	var automationTemplates models.AutomationTemplates
@@ -133,6 +133,23 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 		})
 		return
 	}
+
+	//Creating New Branch
+	gitRepo := m.App.Session.Get(r.Context(), "gitRepo").(models.Git)
+	err = gitRepo.FetchRemote()
+	if err != nil {
+		m.App.ErrorLog.Println("error in Fetching:", err)
+		return
+	}
+	automation_branch := appconst.CreateAutomationBranchName(helpers.GenerateRandomString(5))
+
+	err = gitRepo.CheckoutAndCreateNewBranch(automation_branch, gitBranchDropDown)
+	if err != nil {
+		m.App.ErrorLog.Println("error in creating new branch:", err)
+		return
+	}
+
+	// Rendering template files with values getting from the form variables
 	for _, file := range files {
 		filePrefix := strings.Split(file.Name(), ".")[0]
 		if strings.HasSuffix(file.Name(), ".template") {
@@ -141,23 +158,18 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 				m1 := regexp.MustCompile("@@" + variableName.Name + "@@")
 				renderedTemplateFile = m1.ReplaceAllString(renderedTemplateFile, form.Get(fmt.Sprintf("%s-%s", filePrefix, variableName.Name)))
 			}
+
+			// TODO: Add struct for the rendered templates
+			// TODO: path as a prefix in file name should be created as a dir and then write file there.
+			err = gitRepo.AddChangesToWorkTree(filePrefix, renderedTemplateFile)
+			if err != nil {
+				m.App.ErrorLog.Println("error adding changes to work trees", err)
+			}
 		}
 	}
 
-	//commiting the file
-	// gitRepo := m.App.Session.Get(r.Context(), "gitRepo").(models.Git)
+	gitRepo.CommitAndPush("Added automation files using zeus")
 
-	// _ = gitRepo.PublishChanges(fileName, renderedTemplateFile, gitBranchDropDown)
-	// gitRepo.FetchRemote()
-	// gitRepo.CheckoutToBranch(gitBranchDropDown)
-	// files, err := gitRepo.GetListOffiles()
-	// if err != nil {
-	// 	m.App.ErrorLog.Println("error publishing the changes to git", err)
-	// } else {
-	// 	m.App.ErrorLog.Println("files", files)
-	// }
-	// m.App.InfoLog.Println("changes successfully pushed to git")
-	// redirecting on success
 	http.Redirect(w, r, "/admin/automation/opt", http.StatusSeeOther)
 }
 

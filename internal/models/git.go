@@ -32,9 +32,7 @@ func (g *Git) Initialize() error {
 
 func (g *Git) SetDirectory() {
 	folderName := helpers.GenerateRandomString(20)
-	dataDir := appconst.GetDataDir()
-	dir := fmt.Sprintf("%s/%s", dataDir, folderName)
-	g.Directory = dir
+	g.Directory = appconst.GetGitRepoDir(folderName)
 }
 
 func (g *Git) MakeDirectory() error {
@@ -127,6 +125,40 @@ func (g *Git) GetTree() (*git.Worktree, error) {
 	return w, nil
 }
 
+func (g *Git) CreateNewBranch(branch string) error {
+	gitRepo, err := g.GetRepo()
+	err = gitRepo.CreateBranch(&config.Branch{
+		Name: branch,
+	})
+	if err != nil {
+		log.Println("error in creating new branch:", err)
+		return err
+	}
+	return nil
+}
+
+func (g *Git) CheckoutAndCreateNewBranch(newBranch string, oldBranch string) error {
+	g.CheckoutToBranch(oldBranch)
+	newBranchName := fmt.Sprintf("refs/heads/%s", newBranch)
+	newBranchRef := plumbing.ReferenceName(newBranchName)
+
+	w, err := g.GetTree()
+	if err != nil {
+		log.Println("error in checking out to old branch:", err)
+		return err
+	}
+
+	err = w.Checkout(&git.CheckoutOptions{
+		Branch: newBranchRef,
+		Create: true,
+	})
+	if err != nil {
+		log.Println("error in checking out to new branch:", err)
+		return err
+	}
+	return nil
+}
+
 func (g *Git) CheckoutToBranch(branch string) error {
 	branchName := fmt.Sprintf("refs/heads/%s", branch)
 	branchRef := plumbing.ReferenceName(branchName)
@@ -196,25 +228,16 @@ func (g *Git) GetListOffiles() ([]string, error) {
 	return files, nil
 }
 
-func (g *Git) PublishChanges(fileName string, renderedTemplateFile string, gitBranchDropDown string) error {
+func (g *Git) AddChangesToWorkTree(fileName string, renderedTemplateFile string) error {
 
 	w, err := g.GetTree()
 	if err != nil {
 		log.Println("error in getting git tree:", err)
 		return err
 	}
-	err = g.FetchRemote()
-	if err != nil {
-		log.Println("error in fetching:", err)
-	}
-
-	err = g.CheckoutToBranch(gitBranchDropDown)
-	if err != nil {
-		log.Println("error in checking out to branch:", err)
-		return err
-	}
 
 	newFile, err := os.Create(fmt.Sprintf("%s/%s", g.Directory, fileName))
+
 	if err != nil {
 		log.Println("error creating new file:", err)
 		return err
@@ -222,7 +245,19 @@ func (g *Git) PublishChanges(fileName string, renderedTemplateFile string, gitBr
 	newFile.Write([]byte(renderedTemplateFile))
 	newFile.Close()
 	w.Add(fileName)
-	w.Commit("added using zeus", &git.CommitOptions{})
+
+	return nil
+}
+
+func (g *Git) CommitAndPush(msg string) error {
+
+	w, err := g.GetTree()
+	if err != nil {
+		log.Println("error in getting git tree:", err)
+		return err
+	}
+
+	w.Commit(msg, &git.CommitOptions{})
 
 	gitRepo, err := g.GetRepo()
 	if err != nil {
