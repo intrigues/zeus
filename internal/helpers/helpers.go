@@ -119,20 +119,20 @@ func exists(path string) (bool, error) {
 	return false, err
 }
 
-// func GetFilesInDir(path string) []string {
-// 	files :=
-// 	err := filepath.Walk("./data/templates",
-// 		func(path string, info os.FileInfo, err error) error {
-// 			if err != nil {
-// 				return err
-// 			}
-// 			if !info.IsDir() {
-// 				fmt.Println(path)
-// 			}
-// 			return nil
-// 		})
-// 	if err != nil {
-// 		return []string{}
-// 	}
-
-// }
+func GetFilesInDir(dirPath string) []string {
+	files := []string{}
+	err := filepath.Walk(dirPath,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if !info.IsDir() {
+				files = append(files, path)
+			}
+			return nil
+		})
+	if err != nil {
+		return []string{}
+	}
+	return files
+}
