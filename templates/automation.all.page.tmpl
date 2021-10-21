@@ -1,0 +1,23 @@
+{{template "basenav" .}}
+
+{{define "content"}}
+<div class="row d-flex justify-content-start mt-4">
+    <div class="col-12 my-2">
+        <a href="/admin/automation/opt" class="border-radius-lg fs-6 btn btn-lg text-white bg-primary-dark custom-btn">Create New Automation</a>
+    </div>
+    <!-- {{$automationTemplate := index .Data "automationTemplates"}}
+    {{if not  $automationTemplate}} -->
+    <div class="col-12 mt-2">
+        <div class="card-content-primary  border-0 border-radius-lg">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <h3>No automation found</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- {{end}} -->
+</div>
+{{ end }}

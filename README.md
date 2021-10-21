@@ -10,6 +10,7 @@ With this tool we are trying generalize and minimize devops reperating task whil
 - `DEFAULT_ADMIN_EMAIL`: Email for admin user (created only if - `CREATE_ADMIN_USER` env is set to `TRUE`) (default: admin@example.com)
 - `DEFAULT_ADMIN_PASSWORD`: Password for admin user (created only if - `CREATE_ADMIN_USER` env is set to `TRUE`) (default: nil -> It will be printed in logs)
 - `DATA_DIR=./data`: Persistent data storage (make sure this directory has required permission)
+- `AUTOMATION_NEW_BRANCH_PREFIX`: Prefix for the new branch in automation (default is `zeus-automation`)
 
 # Usage Instructions
 - Add a template
@@ -20,6 +21,40 @@ With this tool we are trying generalize and minimize devops reperating task whil
 - Select the branch
 - Add the credentials
 - Click on automate
+
+## Creating templates
+- Add project name and Technology name
+- Add number of files required
+    - Add filename
+    - Add file content
+        - Templatized files: File should contain @@VARIABLE_NAME@@ where you want dynamic varialbes
+        - Add mapping for each dynamic variable
+
+### Examples for files
+File content example
+```
+def projectName = "@@PROJECT_NAME@@"
+def serviceName = "@@SERVICE_NAME@@"
+...
+...
+end of code
+```
+
+File variable mapping example
+```
+[
+    {
+        "variable": "PROJECT_NAME",
+        "hint": "Project Name",
+        "placeholder": "Project Name"
+    },
+    {
+        "variable": "SERVICE_NAME",
+        "hint": "Service Name",
+        "placeholder": "Service Name"
+    }
+]
+```
 
 # Developer Guidelines
 Install required dependancies using

@@ -28,7 +28,7 @@ func (m *Repository) ActivateUser(w http.ResponseWriter, r *http.Request) {
 	m.App.DB.First(&user, "username = ?", username)
 	user.Status = 1
 	m.App.DB.Save(&user)
-	m.App.Session.Put(r.Context(), "flash", "User activated")
+	m.App.Session.Put(r.Context(), "info", "User activated")
 	http.Redirect(w, r, "/admin/users/all", http.StatusSeeOther)
 }
 
@@ -39,6 +39,17 @@ func (m *Repository) DeactivateUser(w http.ResponseWriter, r *http.Request) {
 	m.App.DB.First(&user, "username = ?", username)
 	user.Status = 0
 	m.App.DB.Save(&user)
-	m.App.Session.Put(r.Context(), "flash", "User activated")
+	m.App.Session.Put(r.Context(), "info", "User deactivated")
+	http.Redirect(w, r, "/admin/users/all", http.StatusSeeOther)
+}
+
+func (m *Repository) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	username := chi.URLParam(r, "username")
+	m.App.InfoLog.Println("deleting user:", username)
+	var user models.Users
+	m.App.DB.First(&user, "username = ?", username)
+	user.Status = 0
+	m.App.DB.Delete(&user)
+	m.App.Session.Put(r.Context(), "info", "User deleted")
 	http.Redirect(w, r, "/admin/users/all", http.StatusSeeOther)
 }
