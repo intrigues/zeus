@@ -11,6 +11,16 @@ With this tool we are trying generalize and minimize devops reperating task whil
 - `DEFAULT_ADMIN_PASSWORD`: Password for admin user (created only if - `CREATE_ADMIN_USER` env is set to `TRUE`) (default: nil -> It will be printed in logs)
 - `DATA_DIR=./data`: Persistent data storage (make sure this directory has required permission)
 
+# Usage Instructions
+- Add a template
+- Create new automation
+- Select template that you want to automate
+- Provide git credentials and url to where you want to push your code
+- Fetch branches by pressing on fetch button besides branch dropdown
+- Select the branch
+- Add the credentials
+- Click on automate
+
 # Developer Guidelines
 Install required dependancies using
 ```
