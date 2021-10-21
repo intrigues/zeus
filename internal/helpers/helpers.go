@@ -61,7 +61,7 @@ func MakeDirectory(path string) error {
 	// TODO: fix permission to make it more secure
 	isExists, err := exists(path)
 	if err != nil {
-		log.Println("Error listing directory", err)
+		log.Println("Directory you are trying to create already exsists", err)
 		return err
 	}
 	if !isExists {

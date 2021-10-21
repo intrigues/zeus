@@ -45,13 +45,14 @@ func (m *Repository) CreateAutomationNew(w http.ResponseWriter, r *http.Request)
 	// TODO: optimise this in a better way
 	// Fetch list of variables for the files
 	listOfVariables := make(map[string][]models.AutomationMetadata)
-	files := GetTemplateFiles(automationTemplates.ID)
+	// files := GetTemplateFiles(automationTemplates.ID)
+	files := ListTemplateFiles(automationTemplates.ID)
 	for _, file := range files {
-		if strings.HasSuffix(file.Name(), ".mapping") {
+		if strings.HasSuffix(file, ".mapping") {
 			var t []models.AutomationMetadata
-			templateMapping := ReadTemplate(automationTemplates.ID, file.Name())
+			templateMapping := ReadTemplate(automationTemplates.ID, file)
 			json.Unmarshal([]byte(templateMapping), &t)
-			filePrefix := strings.Split(file.Name(), ".")[0]
+			filePrefix := strings.Split(file, ".")[0]
 			listOfVariables[filePrefix] = t
 		}
 	}
@@ -87,16 +88,15 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 
 	// Fetch list of variables for the files
 	listOfVariables := make(map[string][]models.AutomationMetadata)
-	files := GetTemplateFiles(automationTemplates.ID)
+	// files := GetTemplateFiles(automationTemplates.ID)
+	files := ListTemplateFiles(automationTemplates.ID)
 	for _, file := range files {
-		if strings.HasSuffix(file.Name(), ".mapping") {
+		if strings.HasSuffix(file, ".mapping") {
 			var t []models.AutomationMetadata
-			m.App.InfoLog.Println("Files ---> ", file.Name(), file.IsDir())
-			templateMapping := ReadTemplate(automationTemplates.ID, file.Name())
+			templateMapping := ReadTemplate(automationTemplates.ID, file)
 			json.Unmarshal([]byte(templateMapping), &t)
 
-			m.App.InfoLog.Println("t ---> ", t)
-			filePrefix := strings.Split(file.Name(), ".")[0]
+			filePrefix := strings.Split(file, ".")[0]
 			listOfVariables[filePrefix] = t
 		}
 	}
@@ -113,12 +113,13 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 		m.App.DB.Where("user_id = ? AND project_name = ? AND technology = ?", currentUserID, projectName, technology).First(&automationTemplates)
 
 		listOfVariables := make(map[string][]models.AutomationMetadata)
-		files := GetTemplateFiles(automationTemplates.ID)
+		// files := GetTemplateFiles(automationTemplates.ID)
+		files := ListTemplateFiles(automationTemplates.ID)
 		for _, file := range files {
-			filePrefix := strings.Split(file.Name(), ".")[0]
-			if strings.HasSuffix(file.Name(), ".mapping") {
+			filePrefix := strings.Split(file, ".")[0]
+			if strings.HasSuffix(file, ".mapping") {
 				var t []models.AutomationMetadata
-				templateMapping := ReadTemplate(automationTemplates.ID, file.Name())
+				templateMapping := ReadTemplate(automationTemplates.ID, file)
 				json.Unmarshal([]byte(templateMapping), &t)
 				listOfVariables[filePrefix] = t
 			}
@@ -151,9 +152,9 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 
 	// Rendering template files with values getting from the form variables
 	for _, file := range files {
-		filePrefix := strings.Split(file.Name(), ".")[0]
-		if strings.HasSuffix(file.Name(), ".template") {
-			renderedTemplateFile := ReadTemplate(automationTemplates.ID, file.Name())
+		filePrefix := strings.Split(file, ".")[0]
+		if strings.HasSuffix(file, ".template") {
+			renderedTemplateFile := ReadTemplate(automationTemplates.ID, file)
 			for _, variableName := range listOfVariables[filePrefix] {
 				m1 := regexp.MustCompile("@@" + variableName.Name + "@@")
 				renderedTemplateFile = m1.ReplaceAllString(renderedTemplateFile, form.Get(fmt.Sprintf("%s-%s", filePrefix, variableName.Name)))
@@ -190,6 +191,18 @@ func GetTemplateFiles(id string) []fs.FileInfo {
 	files, err := ioutil.ReadDir(templateDir)
 	if err != nil {
 		log.Fatal(err)
+	}
+	return files
+}
+
+func ListTemplateFiles(id string) []string {
+	templateDir := appconst.GetTemplateDir(id)
+	files := []string{}
+	for _, file := range helpers.GetFilesInDir(templateDir) {
+		if !strings.HasPrefix(file, "./") {
+			file = fmt.Sprintf("./%s", file)
+		}
+		files = append(files, strings.Split(file, templateDir+"/")[1])
 	}
 	return files
 }

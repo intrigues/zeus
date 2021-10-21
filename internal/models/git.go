@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/go-git/go-git/v5"
@@ -236,6 +237,7 @@ func (g *Git) AddChangesToWorkTree(fileName string, renderedTemplateFile string)
 		return err
 	}
 
+	helpers.MakeDirectory(filepath.Dir(fmt.Sprintf("%s/%s", g.Directory, fileName)))
 	newFile, err := os.Create(fmt.Sprintf("%s/%s", g.Directory, fileName))
 
 	if err != nil {
