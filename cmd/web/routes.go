@@ -37,7 +37,6 @@ func routes(app *config.AppConfig) http.Handler {
 			})
 		})
 		mux.Route("/automation", func(r chi.Router) {
-			r.Get("/all", handlers.Repo.GetAutomationAll)
 			r.Get("/opt", handlers.Repo.GetAutomationNewOpt)
 			r.Route("/new", func(r chi.Router) {
 				r.Get("/{projectName}/{technology}", handlers.Repo.CreateAutomationNew)

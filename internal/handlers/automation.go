@@ -18,12 +18,6 @@ import (
 	"github.com/intrigues/zeus-automation/internal/render"
 )
 
-func (m *Repository) GetAutomationAll(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "automation.all.page.tmpl", &models.TemplateData{
-		Form: forms.New(nil),
-	})
-}
-
 func (m *Repository) GetAutomationNewOpt(w http.ResponseWriter, r *http.Request) {
 	currentUserID := m.App.Session.Get(r.Context(), "currentuser").(models.Users).ID
 	var automationTemplates []models.AutomationTemplates
