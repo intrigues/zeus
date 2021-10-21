@@ -21,6 +21,40 @@ With this tool we are trying generalize and minimize devops reperating task whil
 - Add the credentials
 - Click on automate
 
+## Creating templates
+- Add project name and Technology name
+- Add number of files required
+    - Add filename
+    - Add file content
+        - Templatized files: File should contain @@VARIABLE_NAME@@ where you want dynamic varialbes
+        - Add mapping for each dynamic variable
+
+### Examples for files
+File content example
+```
+def projectName = "@@PROJECT_NAME@@"
+def serviceName = "@@SERVICE_NAME@@"
+...
+...
+end of code
+```
+
+File variable mapping example
+```
+[
+    {
+        "variable": "PROJECT_NAME",
+        "hint": "Project Name",
+        "placeholder": "Project Name"
+    },
+    {
+        "variable": "SERVICE_NAME",
+        "hint": "Service Name",
+        "placeholder": "Service Name"
+    }
+]
+```
+
 # Developer Guidelines
 Install required dependancies using
 ```
