@@ -31,7 +31,7 @@ func (m *Repository) PostTemplateNew(w http.ResponseWriter, r *http.Request) {
 	form := forms.New(r.PostForm)
 	form.Required("projectNameField", "technologyField")
 	// Fetching number of template files for validating those fields
-	for key, _ := range r.Form {
+	for key := range r.Form {
 		if strings.HasPrefix(key, "file") {
 			form.Required(key)
 		}
@@ -59,7 +59,7 @@ func (m *Repository) PostTemplateNew(w http.ResponseWriter, r *http.Request) {
 	// Fetching number of template files
 	fileCounter := 0
 	// calculating number of files
-	for key, _ := range r.Form {
+	for key := range r.Form {
 		if strings.HasPrefix(key, "fileNameField") {
 			fileCounter++
 		}

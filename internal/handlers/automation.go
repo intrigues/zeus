@@ -45,14 +45,13 @@ func (m *Repository) CreateAutomationNew(w http.ResponseWriter, r *http.Request)
 	// TODO: optimise this in a better way
 	// Fetch list of variables for the files
 	listOfVariables := make(map[string][]models.AutomationMetadata)
-	// files := GetTemplateFiles(automationTemplates.ID)
 	files := ListTemplateFiles(automationTemplates.ID)
 	for _, file := range files {
 		if strings.HasSuffix(file, ".mapping") {
 			var t []models.AutomationMetadata
 			templateMapping := ReadTemplate(automationTemplates.ID, file)
 			json.Unmarshal([]byte(templateMapping), &t)
-			filePrefix := strings.Split(file, ".")[0]
+			filePrefix := strings.Split(file, ".mapping")[0]
 			listOfVariables[filePrefix] = t
 		}
 	}
@@ -96,7 +95,7 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 			templateMapping := ReadTemplate(automationTemplates.ID, file)
 			json.Unmarshal([]byte(templateMapping), &t)
 
-			filePrefix := strings.Split(file, ".")[0]
+			filePrefix := strings.Split(file, ".mapping")[0]
 			listOfVariables[filePrefix] = t
 		}
 	}
@@ -113,10 +112,9 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 		m.App.DB.Where("user_id = ? AND project_name = ? AND technology = ?", currentUserID, projectName, technology).First(&automationTemplates)
 
 		listOfVariables := make(map[string][]models.AutomationMetadata)
-		// files := GetTemplateFiles(automationTemplates.ID)
 		files := ListTemplateFiles(automationTemplates.ID)
 		for _, file := range files {
-			filePrefix := strings.Split(file, ".")[0]
+			filePrefix := strings.Split(file, ".mapping")[0]
 			if strings.HasSuffix(file, ".mapping") {
 				var t []models.AutomationMetadata
 				templateMapping := ReadTemplate(automationTemplates.ID, file)
@@ -152,7 +150,7 @@ func (m *Repository) PostCreateAutomationNew(w http.ResponseWriter, r *http.Requ
 
 	// Rendering template files with values getting from the form variables
 	for _, file := range files {
-		filePrefix := strings.Split(file, ".")[0]
+		filePrefix := strings.Split(file, ".template")[0]
 		if strings.HasSuffix(file, ".template") {
 			renderedTemplateFile := ReadTemplate(automationTemplates.ID, file)
 			for _, variableName := range listOfVariables[filePrefix] {
