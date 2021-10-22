@@ -81,7 +81,7 @@ func run() error {
 	}
 
 	// database initialization
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(appconst.GetDatabaseDir()), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Error initializing database")
 		return err

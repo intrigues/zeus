@@ -13,6 +13,11 @@ func GetDataDir() string {
 	return dataDir
 }
 
+func GetDatabaseDir() string {
+	dbDir := fmt.Sprintf("%s/db/app.db", GetDataDir())
+	return dbDir
+}
+
 func GetTemplateDir(id string) string {
 	templateDir := fmt.Sprintf("%s/templates/%s", GetDataDir(), id)
 	return templateDir
