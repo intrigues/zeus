@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
@@ -81,7 +82,14 @@ func run() error {
 	}
 
 	// database initialization
-	db, err := gorm.Open(sqlite.Open(appconst.GetDatabaseDir()), &gorm.Config{})
+	databaseDir := appconst.GetDatabaseDir()
+	err = helpers.MakeDirectory(filepath.Dir(databaseDir))
+	log.Println("Creating database directory", filepath.Base(appconst.GetDatabaseDir()))
+	if err != nil {
+		log.Fatal("Error creating database dir. Please make sure you have proper permissions in place", err)
+		return err
+	}
+	db, err := gorm.Open(sqlite.Open(databaseDir), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Error initializing database")
 		return err
@@ -164,6 +172,6 @@ func createDefaultUser() {
 		Password:          string(password_hash),
 		IncorrectPassword: 0,
 		Status:            1,
-		Role:              "Admin",
+		Role:              "Administrator",
 	})
 }
