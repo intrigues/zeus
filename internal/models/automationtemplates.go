@@ -15,6 +15,5 @@ type AutomationTemplates struct {
 
 type AutomationMetadata struct {
 	Name        string `json:"variable"`
-	Hint        string `json:"hint"`
-	Placeholder string `json:"placeholder"`
+	Description string `json:"description"`
 }

@@ -30,6 +30,9 @@ var functions = template.FuncMap{
 		if strings.Contains(url, "users") {
 			page = "Users"
 		}
+		if strings.Contains(url, "library") {
+			page = "Library"
+		}
 		return page
 	},
 }

@@ -66,6 +66,13 @@
                 </a>
             </li>
             <li
+                class="nav-item nav-item-primary {{if eq .CurrentPage "/admin/library/all"}}nav-item-active nav-item-primary-active{{end}}">
+                <a href="/admin/library/all" class="nav-link nav-link-primary d-flex">
+                    <i class='bx bxs-shopping-bag-alt nav-icon' aria-hidden="true"></i>
+                    <span class="nav-text">Library</span>
+                </a>
+            </li>
+            <li
                 class="nav-item nav-item-primary {{if eq .CurrentPage "/admin/users/all"}}nav-item-active nav-item-primary-active{{end}}">
                 <a href="/admin/users/all" class="nav-link nav-link-primary d-flex">
                     <i class='bx bx-group nav-icon' aria-hidden="true"></i>

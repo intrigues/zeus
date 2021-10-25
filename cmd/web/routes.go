@@ -61,6 +61,10 @@ func routes(app *config.AppConfig) http.Handler {
 			r.Get("/fetch", handlers.Repo.FetchGitBranch)
 			r.Post("/fetch", handlers.Repo.FetchGitBranch)
 		})
+		mux.Route("/library", func(r chi.Router) {
+			r.Get("/all", handlers.Repo.GetLibraryAll)
+			r.Get("/{projectName}/{technology}/download", handlers.Repo.DownloadLibraryTemplate)
+		})
 	})
 
 	fileServer := http.FileServer(http.Dir("./static/"))

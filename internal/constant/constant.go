@@ -35,6 +35,22 @@ func GetAutomationBranchPrefix() string {
 	return prefix
 }
 
+func GetTemplateLibraryRepo() string {
+	templateLibraryRepo := os.Getenv("CUSTOM_TEMPLATE_LIBRARY_URL")
+	if templateLibraryRepo == "" {
+		templateLibraryRepo = "intrigues/zeus-template-library"
+	}
+	return templateLibraryRepo
+}
+
+func GetGithubHost() string {
+	return "https://api.github.com"
+}
+
+func GetRawGithubHost() string {
+	return "https://raw.githubusercontent.com"
+}
+
 func CreateAutomationBranchName(name string) string {
 	return fmt.Sprintf("%s-%s", GetAutomationBranchPrefix(), name)
 }

@@ -77,8 +77,6 @@ func (m *Repository) PostTemplateNew(w http.ResponseWriter, r *http.Request) {
 
 	m.App.InfoLog.Println("Files are saved")
 
-	// SaveTemplate(form.Get("fileTextArea"), templateID, "Jenkinsfile.template")
-	// SaveTemplate(form.Get("templateFileMetadata"), templateID, "Jenkinsfile.mapping")
 	http.Redirect(w, r, "/admin/templates/all", http.StatusSeeOther)
 }
 
